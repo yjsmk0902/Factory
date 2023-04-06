@@ -23,7 +23,7 @@ fun main() {
     //4. Kotlin에서의 객체 인스턴스화
 
     //  Kotlin에서 객체 인스턴스화를 할때에는 new를 붙이지 않음
-    val person = Person("who")
+    val person = Person("who", 10)
 
     //5. Kotlin에서의 null 체크
 
@@ -92,7 +92,7 @@ fun main() {
     //8. 플랫폼 타입
 
     //  Kotlin에서 Java 코드를 가져다 사용할 때 어떻게 처리될까?
-    val personA = Person("의으이ㅡ이ㅡ읭")
+    val personA = Person("의으이ㅡ이ㅡ읭", 10)
     fun startsWithPersonA(str: String): Boolean {
         return str.startsWith("A")
     }
@@ -101,6 +101,95 @@ fun main() {
     //  Kotlin에서 이를 이해하고 사용할 수 있음
 
     //  하지만 그를 알 수 없는 '플랫폼 타입' 이라면 알아서 잘 찾아 처리해야 함
+
+    //9. 기본 타입
+
+    //  Java와 동일하게 Byte / Short / Int / Long / Float / Double 등이 있음
+    val numberInt = 3       //Int
+    val numberLong = 3L     //Long
+    val numberDouble = 3.0  //Double
+    val numberFloat = 3.0f  //Float
+
+    //  Java와 다른 점 =>
+    //      Java    -> 기본 타입간의 변환 = 암시적
+    //      Kotile  -> 기본 타입간의 변환 = 명시적
+
+    //Java의 경우
+    //  int numberInt = 4;
+    //  long numberLong = numberInt;
+    //  sysout.println(numberInt + numberLong);
+
+    //Kotlin의 경우 => 'to변환타입()'을 사용해야함
+    val numberIntKt = 4;
+    val numberLongKt:Long = numberIntKt.toLong()
+
+    //##주의. nullable변수 처리 잘해야함
+    val numberNullableInt: Int? = 3
+    val numberNullableLong: Long = numberNullableInt?.toLong() ?: 0L
+
+    //10. 타입 캐스팅 => instanceof -> is / !instanceof -> !is
+
+    //Java의 경우
+    //    public static void printAgeIfPerson(Object obj){
+    //        if(obj instanceof Person){
+    //            Person person = (Person) obj;
+    //            sysout.println(person.getAge());
+    //        }
+    //    }
+
+    //Kotlin의 경우
+    fun printAgeIfPerson(obj: Any) {
+        if(obj is Person){
+            println(obj.age)
+        }
+    }
+
+    //obj에 null이 들어오는 경우
+    fun printAgeIfPersonNullable(obj: Any?) {
+        val person = obj as? Person
+        println(person?.age)
+    }
+
+    //11. Kotlin의 특이한 타입 3가지
+
+    //Any <=> Java. Object
+    //  Java의 Object 역할 (모든 객체의 최상위 타입)
+    //  모든 Primitive Type의 최상위 타입도 Any
+    //  Any 자체로는 null을 포함할 수 없어 null을 포함하고 싶다면, Any?로 표현
+    //  Any에 equals / hashCode / toString 존재
+
+    //Unit <=> Java. void
+    //  Java의 void와 동일한 역할
+    //  void와는 다르게 Unit은 그 자체로 타입 인자로 사용 가능함
+    //  함수형 프로그래밍에서 Unit은 단 하나의 인스턴스만 갖는 타입을 의미
+    //  즉, 코틀린의 Unit은 실제 존재하는 타입이라는 것을 표현
+
+    //Nothing
+    //  함수가 정상적으로 끝나지 않았다는 사실을 표현하는 역할
+    //  무조건 예외를 반환하는 함수 또는 무한 루프 함수 등
+    fun fail(message: String): Nothing {
+        throw IllegalArgumentException(message)
+    }
+
+    //12. String interpolation / String indexing
+
+    //${변수}로 바로 사용가능
+    val me = Person("Luke", 10)
+    val log = "My name is ${me.name}, and ${me.age}years old."
+
+    //여러 줄에 걸친 문자열을 작성해야 할 때
+    val withoutIndent=
+        """
+            ABC
+            123
+            456
+            789
+            ${me.age}
+        """.trimIndent()
+
+    //문자열 가져올 때 => 배열처럼 그냥 가져올 수 있음
+    val str = "ABCD"
+    val ch = str[1]
 }
 
 
