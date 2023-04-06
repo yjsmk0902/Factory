@@ -1,6 +1,6 @@
 //#G5-2293 [동전 1]
 //유형 - DP
-//  
+//  흔하디 흔한 DP 문제
 
 #include<iostream>
 using namespace std;
