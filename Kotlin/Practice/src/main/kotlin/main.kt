@@ -225,8 +225,6 @@ fun main() {
 
     //15. 논리 연산자 / 코틀린에 있는 특이한 연산자
 
-
-
     //  논리 연산자 -> && / || / ! => Java와 완전히 동일
 
     //  in / !in -> 컬렉션이나 범위에 포함되어 있다 / 포함되어 있지 않다
@@ -240,6 +238,86 @@ fun main() {
     //16. 연산자 오버로딩
 
     println(operatorA + operatorB)
+
+    //17. if문
+
+    //  Java와 Kotlin 문법은 동일하나 방식이 다름
+    //  Java의 경우 Statement, Kotlin은 Expression 방식임
+
+    //18. Expression과 Statement
+
+    //  Statement   => 프로그램의 문장, 하나의 값으로 도출되지 않음
+    //  Expression  => 하나의 값으로 도출되는 문장
+
+    //  Java
+    //    if( javaA > javaB){
+    //        return true;
+    //    }else{
+    //        return false;
+    //    }
+
+    //  Kotlin
+    val kotlinA=1
+    val kotlinB=2
+    val returnValue = if (kotlinA > kotlinB) {
+        1
+    } else {
+        0
+    }
+
+    //  따라서 Java에는 3항연산자가 있지만 Kotlin에는 없다
+
+    fun getGrade(score: Int): String {
+        return if (score >= 90) {
+            "A"
+        }else if (score >= 80) {
+            "B"
+        }else if (score >= 70) {
+            "C"
+        }else{
+            "D"
+        }
+    }
+
+    //19. switch와 when
+
+    //  Java에서는 switch / Kotlin에서는 when을 씀
+    //  예시를 잘보면 될듯
+
+    fun getGradeWithSwitchV1(score: Int): String {
+        return when (score / 10) {
+            9 -> "A"
+            8 -> "B"
+            7 -> "C"
+            else -> "D"
+        }
+    }
+
+    fun getGradeWithSwitchV2(score: Int): String {
+        return when (score) {
+            in (100..90) -> "A"
+            in (89..80) -> "B"
+            in (79..70) -> "C"
+            else -> "D"
+        }
+    }
+
+    fun judgeNumber(number: Int) {
+        when (number) {
+            1, 0, -1 -> println("어디서 많이 본 숫자입니다")
+            else ->println("다른 숫자입니다")
+        }
+    }
+
+    fun judgeNumber2(number: Int) {
+        when {
+            number == 0 -> println("주어진 숫자는 0입니다")
+            number % 2 == 0 -> println("주어진 숫자는 짝수입니다")
+            else->println("주어지는 숫자는 홀수입니다")
+        }
+    }
+
+    //  진짜 개좋다...이게 코딩이지 when은 사기다
 }
 
 
