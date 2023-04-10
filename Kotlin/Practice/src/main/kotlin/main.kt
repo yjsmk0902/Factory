@@ -1,4 +1,10 @@
+import org.jetbrains.annotations.NotNull
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
 import java.lang.IllegalArgumentException
+import java.lang.NumberFormatException
 
 fun main() {
 
@@ -357,6 +363,97 @@ fun main() {
     }
 
     //23. while문 -> Java, Kotlin 완전 동일
+
+    //24. try / catch / finally 구문
+
+    //  Ex.1) 주어진 문자열을 정수로 변경
+
+    //  Java
+    //    private Integer parseIntOrThrowV1(@NotNull String str){
+    //        try{
+    //            return Integer.parseInt(str);
+    //        }catch(NumberFormatException e){
+    //            throw new IllegalArgumentException(String.format("주어진 %s는 숫자가 아닙니다.", str));
+    //        }
+    //    }
+
+    //  Kotlin
+    fun parseIntOrThrowV1(str: String): Int {
+        try {
+            return str.toInt()
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException("주어진 ${str}는 숫자가 아닙니다.")
+        }
+    }
+    //      타입이 뒤에 위치, new를 사용하지 않음, 포맷팅이 간결
+    //      try/catch 구문은 Java와 완전히 동일
+
+    //  Ex.2) 주어진 문자열을 정수로 변경하는 예제 (실패시 null을 반환)
+
+    //  Java
+    //    private Integer parseIntOrThrowV2(@NotNull String str){
+    //        try{
+    //            return Integer.parseInt(str);
+    //        }catch{
+    //            return null;
+    //        }
+    //    }
+
+    //  Kotlin
+    fun parseIntOrThrowV2(str: String): Int? {
+        return try {
+            str.toInt()
+        } catch (e: NumberFormatException) {
+            null
+        }
+    }
+    //      if/else문과 마찬가지로 try/catch문도 Statement가 아닌 Expression임
+    //      따라서 값으로 return 가능
+
+    //  try/catch/finally구문도 Java와 일치
+
+    //25. Checked Exception과 Unchecked Exception
+
+    //  Java
+    //    public void readFile() throws IOException{
+    //        File currentFile = new File(".");
+    //        File file = new File(currentFile.getAbsolutePath() + "/a.txt");
+    //        BufferedReader reader = new BufferedReader(new FileReader(file));
+    //        Sysout.println(reader.readLine());
+    //        reader.close();
+    //    }
+
+    //  Kotlin
+    fun readFile(){
+        val currentFile = File(".")
+        val file = File(currentFile.absolutePath + "/a.txt")
+        val reader = BufferedReader(FileReader(file))
+        println(reader.readLine())
+        reader.close()
+    }
+    //      코틀린은 모든 Exception을 Unchecked Exception으로 처리함
+
+    //26. try with resources 구문 (JDK7)
+
+    //  try(자원 받고){try문 실행 후 알아서 자원 반납}
+
+    //  Java
+    //    public void readFile(String path) throws IOExeption{
+    //        try(BufferedReader reader = new BufferedReader(new FileReader(path))){
+    //            Sysout.println(reader.readLine());
+    //        }
+    //    }
+
+    //  Kotlin
+    fun readFile(path: String) {
+        BufferedReader(FileReader(path))
+            .use{ reader->
+            println(reader.readLine())
+        }
+    }
+
+    //      Kotlin에는 try with resources 구문이 없는 대신 use라는 inline 확장함수를 사용함
+
 }
 
 
