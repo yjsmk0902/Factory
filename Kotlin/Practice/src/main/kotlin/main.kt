@@ -318,6 +318,45 @@ fun main() {
     }
 
     //  진짜 개좋다...이게 코딩이지 when은 사기다
+
+    //20. for-each문
+
+    //  Java
+    //    List<Long> numbers = Arrays.asList(1L, 2L, 3L);
+    //    for(long number : numbers){
+    //        Sysout.println(number);
+    //    }
+
+    //  Kotlin
+    val numbers = listOf(1L, 2L, 3L)
+    for (number in numbers) {
+        println(number)
+    }
+
+    //21. 전통적인 for문
+
+    //  Java
+    //    for (int i = 1; i<=3; i++) {
+    //        println(i)
+    //    }
+
+    //  Kotlin
+    for (i in 1..3) {
+        println(i)
+    }
+
+    //22. Progression과 Range
+
+    //  내려가는 경우
+    for (i in 3 downTo  1 ) {
+        println(i)
+    }
+    //  두칸씩 올라가는 경우
+    for (i in 1..10 step 2) {
+        println(i)
+    }
+
+    //23. while문 -> Java, Kotlin 완전 동일
 }
 
 
