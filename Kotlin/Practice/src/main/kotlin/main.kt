@@ -190,6 +190,56 @@ fun main() {
     //문자열 가져올 때 => 배열처럼 그냥 가져올 수 있음
     val str = "ABCD"
     val ch = str[1]
+
+    //13. 단항 연산자 / 산술 연산자
+
+    //  단항 연산자 -> ++ / --
+    //  산술 연산자 -> + / - / * / / %
+    //  산술대입 연산자 -> += / -= / *= / /= / %=
+
+    //14. 비교 연산자와 동등성, 동일성
+
+    val operatorA = Person("A", 10)
+    val operatorB = operatorA
+    val operatorC =Person("A", 10)
+
+    //  비교 연산자 -> > / < / >= / <=
+    //  코틀린의 경우 객체 비교시, 자동으로 compareTo를 호출해줌
+
+    if (operatorA > operatorB) {
+        println("operatorA.age > operatorB.age")
+    }
+
+    //  동등성(Equaulity)  => 두 객체의 값이 같은가?
+    //  동일성(Identity)   => 완전히 동일한 객체인가? (Reference)
+    //          동등성             동일성
+    //  Java    equals            ==
+    //  Kotlin  ==                ===
+
+    if (operatorA === operatorB) {
+        println("operatorA와 operatorB는 동일하다")
+    }
+    if (operatorA == operatorC) {
+        println("operatorA와 operatorC는 동등하다")
+    }
+
+    //15. 논리 연산자 / 코틀린에 있는 특이한 연산자
+
+
+
+    //  논리 연산자 -> && / || / ! => Java와 완전히 동일
+
+    //  in / !in -> 컬렉션이나 범위에 포함되어 있다 / 포함되어 있지 않다
+    if ( 2 in (1..10)) {
+        println("2는 1 ~ 10 사이에 포함")
+    }
+    if (15 in (1..10)) {
+        println("15는 1 ~ 10 사이에 미포함")
+    }
+
+    //16. 연산자 오버로딩
+
+    println(operatorA + operatorB)
 }
 
 

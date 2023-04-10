@@ -14,4 +14,13 @@ public class Person {
     public String getName() {
         return name;
     }
+
+    public int compareTo(@NotNull Person operatorB) {
+        return Long.compare(this.age, operatorB.age);
+    }
+
+    @NotNull
+    public int plus(@NotNull Person operatorB) {
+        return this.age + operatorB.age;
+    }
 }
