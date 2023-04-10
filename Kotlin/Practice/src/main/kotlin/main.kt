@@ -46,6 +46,7 @@ fun main() {
         }
         return str.startsWith("A")
     }
+
     //Case2.
     fun startsWithCase2(str: String?): Boolean? {
         if (str == null) {
@@ -53,6 +54,7 @@ fun main() {
         }
         return str.startsWith("A")
     }
+
     //Case3.
     fun startsWithCase3(str: String?): Boolean {
         if (str == null) {
@@ -65,12 +67,12 @@ fun main() {
     //6. Safe Call과 Elvis 연산자
 
     //  Safe Call => null이 아니면 실행하고, null이면 실행하지 않는다 (그대로 null)
-    val strSafeCall: String? = "ABC"
+    val strSafeCall: String = "ABC"
     //strSafeCall.length    => 불가능
     strSafeCall?.length  // => 가능
 
     //  Elvis 연산자 => 앞의 연산 결과가 null이면 뒤의 값을 사용
-    val strElvis: String? = "ABC"
+    val strElvis: String = "ABC"
     strElvis?.length ?: 0
 
     //5의 코드들을 6을 활용해 좀더 코틀린스럽게 바꾼다면?
@@ -80,10 +82,12 @@ fun main() {
         return str?.startsWith("A")
             ?: throw IllegalArgumentException("null이 들어옴")
     }
+
     //Case2.
     fun startsWithKotlinCase2(str: String?): Boolean? {
         return str?.startsWith("A")
     }
+
     //Case3.
     fun startsWithKotlinCase3(str: String?): Boolean {
         return str?.startsWith("A") ?: false
@@ -126,11 +130,11 @@ fun main() {
     //  sysout.println(numberInt + numberLong);
 
     //Kotlin의 경우 => 'to변환타입()'을 사용해야함
-    val numberIntKt = 4;
-    val numberLongKt:Long = numberIntKt.toLong()
+    val numberIntKt = 4
+    val numberLongKt: Long = numberIntKt.toLong()
 
     //##주의. nullable변수 처리 잘해야함
-    val numberNullableInt: Int? = 3
+    val numberNullableInt: Int = 3
     val numberNullableLong: Long = numberNullableInt?.toLong() ?: 0L
 
     //10. 타입 캐스팅 => instanceof -> is / !instanceof -> !is
@@ -145,7 +149,7 @@ fun main() {
 
     //Kotlin의 경우
     fun printAgeIfPerson(obj: Any) {
-        if(obj is Person){
+        if (obj is Person) {
             println(obj.age)
         }
     }
@@ -184,7 +188,7 @@ fun main() {
     val log = "My name is ${me.name}, and ${me.age}years old."
 
     //여러 줄에 걸친 문자열을 작성해야 할 때
-    val withoutIndent=
+    val withoutIndent =
         """
             ABC
             123
@@ -207,7 +211,7 @@ fun main() {
 
     val operatorA = Person("A", 10)
     val operatorB = operatorA
-    val operatorC =Person("A", 10)
+    val operatorC = Person("A", 10)
 
     //  비교 연산자 -> > / < / >= / <=
     //  코틀린의 경우 객체 비교시, 자동으로 compareTo를 호출해줌
@@ -234,7 +238,7 @@ fun main() {
     //  논리 연산자 -> && / || / ! => Java와 완전히 동일
 
     //  in / !in -> 컬렉션이나 범위에 포함되어 있다 / 포함되어 있지 않다
-    if ( 2 in (1..10)) {
+    if (2 in (1..10)) {
         println("2는 1 ~ 10 사이에 포함")
     }
     if (15 in (1..10)) {
@@ -263,8 +267,8 @@ fun main() {
     //    }
 
     //  Kotlin
-    val kotlinA=1
-    val kotlinB=2
+    val kotlinA = 1
+    val kotlinB = 2
     val returnValue = if (kotlinA > kotlinB) {
         1
     } else {
@@ -276,11 +280,11 @@ fun main() {
     fun getGrade(score: Int): String {
         return if (score >= 90) {
             "A"
-        }else if (score >= 80) {
+        } else if (score >= 80) {
             "B"
-        }else if (score >= 70) {
+        } else if (score >= 70) {
             "C"
-        }else{
+        } else {
             "D"
         }
     }
@@ -311,7 +315,7 @@ fun main() {
     fun judgeNumber(number: Int) {
         when (number) {
             1, 0, -1 -> println("어디서 많이 본 숫자입니다")
-            else ->println("다른 숫자입니다")
+            else -> println("다른 숫자입니다")
         }
     }
 
@@ -319,7 +323,7 @@ fun main() {
         when {
             number == 0 -> println("주어진 숫자는 0입니다")
             number % 2 == 0 -> println("주어진 숫자는 짝수입니다")
-            else->println("주어지는 숫자는 홀수입니다")
+            else -> println("주어지는 숫자는 홀수입니다")
         }
     }
 
@@ -354,7 +358,7 @@ fun main() {
     //22. Progression과 Range
 
     //  내려가는 경우
-    for (i in 3 downTo  1 ) {
+    for (i in 3 downTo 1) {
         println(i)
     }
     //  두칸씩 올라가는 경우
@@ -424,7 +428,7 @@ fun main() {
     //    }
 
     //  Kotlin
-    fun readFile(){
+    fun readFile() {
         val currentFile = File(".")
         val file = File(currentFile.absolutePath + "/a.txt")
         val reader = BufferedReader(FileReader(file))
@@ -447,12 +451,65 @@ fun main() {
     //  Kotlin
     fun readFile(path: String) {
         BufferedReader(FileReader(path))
-            .use{ reader->
-            println(reader.readLine())
-        }
+            .use { reader ->
+                println(reader.readLine())
+            }
     }
 
     //      Kotlin에는 try with resources 구문이 없는 대신 use라는 inline 확장함수를 사용함
+
+    //27. 함수 선언 문법
+
+    //  Ex.1) 두 정수를 받아 더 큰 정수를 반환 -> =으로 return을 지우고 return할 값을 바로 넘길 수 있음
+    fun max(a: Int, b: Int): Int = if (a > b) a else b
+
+    //28. Default Parameter
+
+    //  Ex.1) 주어진 문자열을 N번 출력
+    //      fun 함수이름(파라미터:파라미터 타입 = Default)와 같이 Default Parameter 설정 가능
+    fun repeat(str: String, num: Int = 3, useNewLine: Boolean = true) {
+        for (i in 1..num) {
+            if (useNewLine) {
+                println(str)
+            } else {
+                print(str)
+            }
+        }
+    }
+
+    //  다음과 같이 Default Parameter를 설정하여 오버로딩을 구현할 수 있지만
+    //  Java와 동일하게 오버로딩을 구현하는 것도 가능함
+
+    //29. Named Argument (parameter)
+
+    //  위와 같은 함수를 이름을 부여해서 호출가능
+    repeat("Hello world\n", useNewLine = false)
+    //  파라미터를 명시하여 지정해서 넣을 수 있음
+    //  명시하지 않은 파라미터는 자동적으로 Default 값을 사용
+    //  이와 같은 특징은 builder를 직접 만들지 않고 builder의 장점을 갖음
+
+    //  Ex.1) name과 gender를 받아 출력해주는 함수
+    fun printNameAndGender(name: String, gender: String) {
+        println(name)
+        println(gender)
+    }
+
+    printNameAndGender("male", "Luke")     //다음과 같이 헷갈리는 경우를
+    printNameAndGender(gender = "male", name = "Luke")  //이처럼 헷갈리지 않게 쓸 수 있음
+
+    //  단, Kotlin에서 Java함수를 가져다 쓰는 경우에는 Named Argument를 쓸 수 없음
+
+    //30. 같은 타입의 여러 파라미터 받기 (가변인자)
+
+    //  Ex.1) 문자열을 N개 받아 출력하는 예제
+    fun printAll(vararg strings: String) {  //...이 아닌 앞에 vararg를 써서 받아줌
+        for (str in strings) {
+            println(str)
+        }
+    }
+    printAll("A", "B", "C")
+    val array = arrayOf("A", "B", "C")
+    printAll(*array)    //배열을 바로 넣는 대신에 Spread 연산자(*)를 붙여주어야 함
 
 }
 
