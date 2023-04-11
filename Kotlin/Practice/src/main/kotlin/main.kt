@@ -67,12 +67,12 @@ fun main() {
     //6. Safe Call과 Elvis 연산자
 
     //  Safe Call => null이 아니면 실행하고, null이면 실행하지 않는다 (그대로 null)
-    val strSafeCall: String = "ABC"
+    val strSafeCall: String? = "ABC"
     //strSafeCall.length    => 불가능
     strSafeCall?.length  // => 가능
 
     //  Elvis 연산자 => 앞의 연산 결과가 null이면 뒤의 값을 사용
-    val strElvis: String = "ABC"
+    val strElvis: String? = "ABC"
     strElvis?.length ?: 0
 
     //5의 코드들을 6을 활용해 좀더 코틀린스럽게 바꾼다면?
@@ -134,7 +134,7 @@ fun main() {
     val numberLongKt: Long = numberIntKt.toLong()
 
     //##주의. nullable변수 처리 잘해야함
-    val numberNullableInt: Int = 3
+    val numberNullableInt: Int? = 3
     val numberNullableLong: Long = numberNullableInt?.toLong() ?: 0L
 
     //10. 타입 캐스팅 => instanceof -> is / !instanceof -> !is
