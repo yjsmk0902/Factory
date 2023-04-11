@@ -30,6 +30,7 @@ class Person(
 
     //Kotlin의 성인인지 확인하는 기능 (Custom Getter)
     fun isAdultV1(): Boolean = this.age >= 20
+
     //밑에 두 개가 Custom Getter
     val isAdultV2: Boolean
         get() = this.age >= 20
