@@ -736,7 +736,7 @@
     printAll("A", "B", "C")
     val array = arrayOf("A", "B", "C")
     printAll(*array)    //배열을 바로 넣는 대신에 Spread 연산자(*)를 붙여주어야 함
-    ```
+```
 
 * 수강한 강의 - 자바 개발자를 위한 코틀린 입문(Java to Kotlin Starter Guide), 최태현 from 인프런
 <https://www.inflearn.com/course/java-to-kotlin/dashboard>
