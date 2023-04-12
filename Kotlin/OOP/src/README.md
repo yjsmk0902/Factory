@@ -262,5 +262,283 @@
 ***
 </br>
 
+📖 추상 클래스
+-------------
+
+> ### 다음과 같이 추상 클래스를 구성할거임
+<img src="../자료/1.png" width="80%" alt="추상 클래스">
+</img>
+
+> ### Animal 추상 클래스
+>   * Java의 추상 클래스
+> ```java
+> public abstract class JavaAnimal {
+> 
+>     protected final String species;
+>     protected final int legCount;
+> 
+>     public JavaAnimal(String species, int legCount) {
+>         this.species = species;
+>         this.legCount = legCount;
+>     }
+> 
+>     //추상 메소드
+>     abstract public void move();
+> 
+>     //Getter
+>     public String getSpecies() {
+>         return species;
+>     }
+>     public int getLegCount() {
+>         return legCount;
+>     }
+> }
+> ```
+>   * Kotlin의 추상 클래스
+> ```kotlin
+> abstract class Animal(
+>     //Getter/Setter 자동 생성
+>     //상속받은 자식클래스에서 Getter를 재정의 하기위해 open 붙임
+>     protected val species: String,
+>     protected open val legCount: Int, //오버라이드할 때 open
+> ) {
+>     //추상 메소드
+>     abstract fun move()
+> }
+> ```
+
+> ### Cat 상속 클래스
+>   * Java의 상속 클래스
+> ```java
+> public class JavaCat extends JavaAnimal {
+> 
+>     //생성자 상속
+>     public JavaCat(String species) {
+>         super(species, 4);
+>     }
+> 
+>     //상속받은 메소드 재정의
+>     @Override
+>     public void move() {
+>         System.out.println("JavaCat Move");
+>     }
+> }
+> ```
+>   * Kotlin의 상속 클래스
+> ```kotlin
+> class Cat(
+>     //생성자 상속
+>     species: String
+> ) : Animal(species, 4) {
+> 
+>     //상속받은 메소드 재정의
+>     override fun move() {   //어노테이션 없이 override를 붙여 씀
+>         println("Cat Move")
+>     }
+> }
+> ```
+> - extends 대신에 __':'__ 을 써서 상속받음
+> - 상위 클래스의 생성자를 바로 호출해야함
+
+> ### Penguin 상속 클래스
+>   * Java의 상속 클래스
+> ```java
+> public final class JavaPenguin extends JavaAnimal {
+>
+>     //상속받은 클래스 속 새로운 필드
+>     private final int wingCount;
+> 
+>     //생성자 상속
+>     public JavaPenguin(String species) {
+>         super(species, 2);
+>         this.wingCount = 2;
+>     }
+> 
+>     //상속받은 추상 메소드 재정의
+>     @Override
+>     public void move() {
+>         System.out.println("Penguin Move");
+>     }
+> 
+>     //부모 메소드 상속받아 재정의
+>     @Override
+>     public int getLegCount() {
+>         return super.getLegCount() + this.wingCount;
+>     }
+> }
+> ```
+>   * Kotlin의 상속 클래스
+> ```kotlin
+> class Penguin(
+>     //생성자 상속
+>     species: String,
+>     //상속받은 클래스 속 새로운 필드
+>     private val wingCount: Int = 2
+> ) : Animal(species, 2){
+> 
+>     //상속받은 추상 메소드 재정의
+>     override fun move() {
+>         println("Penguin Move")
+>     }
+> 
+>     //부모 프로퍼티 상속받아 Getter 재정의
+>     override val legCount:Int
+>         get() = super.legCount + this.wingCount> 
+> }
+> ```
+> ### __중요!!__ 프로퍼티를 오버라이드 할때는 부모 클래스에서 __open__ 으로 열어줘야함 
+
+> * ### 상위 클래스에 접근할 때는 Java, Kotlin 모두 super를 사용함
+> * ### Java, Kotlin 모두 추상 클래스를 인스터스화 할수 없음
+
+***
+</br>
+
+📖 인터페이스
+-------------
+
+> ### 다음과 같이 인터페이스를 구성할거임
+<img src="../자료/2.png" width="80%" alt="추상 클래스">
+</img>
+
+> ### Flyable, Swimmable 인터페이스
+>   * Java의 인터페이스
+> ```java
+> public interface JavaFlyable {
+> 
+>     default void act() {
+>         //default 바디
+>         System.out.println("Flying");
+>     }
+> }
+> ```
+> ```java
+> public interface JavaSwimable {
+> 
+>     default void act() {
+>         //default 바디
+>         System.out.println("Swimming");
+>     }
+> }
+> ```
+
+>   * Kotlin의 인터페이스
+> ```kotlin
+> interface Flyable {
+>     
+>     //default 없이 메소드 구현 가능
+>     fun act() = println("Flying")
+> }
+> ```
+> ```kotlin
+> interface Swimable {
+> 
+>     //Kotlin은 인터페이스에 프로퍼티도 구현가능
+>     val swimAbility: Int
+>         get() = 3 // => default값
+> 
+>     //default 없이 메소드 구현 가능
+>     fun act() = println("Swimming ")
+> }
+> ```
+> ### Kotlin의 인터페이스는 Default 키워드 없이 메소드 구현 가능
+
+> ### Penguin 구현체
+>   * Java의 구현체
+> ```java
+> public final class JavaPenguin extends JavaAnimal implements JavaFlyable, JavaSwimable {
+>     ...
+>     //인터페이스 구현
+>     @Override
+>     public void act() {
+>         JavaSwimable.super.act();
+>         JavaFlyable.super.act();
+>     }
+> }
+> ```
+>   * Kotlin의 구현체
+> ```kotlin
+> class Penguin(...) : Animal(species, 2),
+> Flyable, Swimable{
+>     ...
+>     //인터페이스 구현
+>     override fun act() {
+>         super<Swimable>.act()
+>         super<Flyable>.act()
+>     }
+>     //프로퍼티 재정의
+>     override val swimAbility: Int
+>         get() = 5
+> }
+> ```
+> * ### 상속과 같이 상속받는 클래스를 이어서 적어줌으로써 상속 가능
+> * ### 중복되는 인터페이스를 특정할때 __'super<타입>.함수'__ 사용
+> * ### Java, Kotlin 모두 인터페이스를 인스터스화 할 수 없음
+> * ### Kotlin에서는 __Backing Field__ 가 없는 프로퍼티를 인터페이스에 만들 수 있음
+
+***
+</br>
+
+📖 클래스를 상속할 때 주의할 점
+-------------
+
+<img src="../자료/3.png" width="30%" alt="추상 클래스">
+</img>
+
+```kotlin
+open class Base(
+    open val number: Int = 100
+){
+    init {
+        println("Base Class")
+        println(number)
+    }
+}
+```
+```kotlin
+class Derived(
+    override val number: Int
+) : Base(number) {
+    init {
+        println("Derived Class")
+    }
+}
+```
+
+> ### 클래스가 다음과 같이 구성될 때,
+```kotlin
+Derived(300)
+```
+> ### 다음과 같이 인스턴스화 하면?
+> ### __Base Class -> 0 -> Derived Class__ 같은 순서로 출력됨
+
+> Derived에 있는 number에 값을 집어 넣어 줄 때
+>
+> 상위 클래스에서 number를 호출하게 되면 하위 클래스에 있는 number를 가져오게 되고
+>
+> 근데 아직 상위 클래스의 constructor가 먼저 실행된 단계이기 때문에 
+>
+> 하위 클래스 number의 초기화가 이루어지지 않은 상태임
+>
+> 따라서 0이 출력됨
+
+> ### __상위 클래스의 constructor와 init 블럭에서는 하위 클래스의 필드에 접근하면 안됨__
+> 고로 상위클래스를 설계할 때 생성자 또는 초기화 블록에 사용되는 프로퍼티에는 __'open'을 피해야 함__
+
+
+***
+</br>
+
+📖 상속 관련 지시어 정리
+-------------
+> * ### final : override를 할 수 없게 함 (Default)
+> * ### open : override를 열어 줌
+> * ### abstract : 반드시 override 해야함
+> * ### override : 상위 타입을 오버라이드 하고 있음
+
+***
+</br>
+
+
 * 수강한 강의 - 자바 개발자를 위한 코틀린 입문(Java to Kotlin Starter Guide), 최태현 from 인프런
 <https://www.inflearn.com/course/java-to-kotlin/dashboard>
