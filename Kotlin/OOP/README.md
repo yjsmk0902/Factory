@@ -272,7 +272,7 @@
 
 > ### 다음과 같이 추상 클래스를 구성할거임
 >
-> ![1](/Users/luke/Desktop/Git/Factory/Kotlin/OOP/1.png)
+> ![1](1.png)
 
 > ### Animal 추상 클래스
 >   * Java의 추상 클래스
@@ -402,7 +402,7 @@
 📖 인터페이스
 -------------
 
-> ### 다음과 같이 인터페이스를 구성할거임![2](/Users/luke/Desktop/Git/Factory/Kotlin/OOP/2.png)
+> ### 다음과 같이 인터페이스를 구성할거임![2](2.png)
 
 > ### Flyable, Swimmable 인터페이스
 >   * Java의 인터페이스
@@ -485,7 +485,7 @@
 📖 클래스를 상속할 때 주의할 점
 -------------
 
-<img src="/Users/luke/Desktop/Git/Factory/Kotlin/OOP/3.png" alt="3" style="zoom: 33%;" />
+<img src="3.png" alt="3" style="zoom:33%;" />
 
 ```kotlin
 open class Base(
@@ -770,7 +770,7 @@ class PersonStatic private constructor(
 >   ...
 >   companion object Factory : Log{
 >       private const val MIN_AGE=1
->   
+>     
 >       @JvmStatic
 >       fun newBaby(name: String): PersonStatic {
 >           return PersonStatic(name, MIN_AGE)
