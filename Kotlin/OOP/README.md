@@ -1,6 +1,7 @@
 💻 코틀린 OOP
 =============
-</br>
+
+
 
 📖 클래스와 프로퍼티
 -------------
@@ -73,7 +74,7 @@
 > 초기값을 지정해주지 않으면 에러 발생
 
 ***
-</br>
+
 
 📖 생성자와 init
 -------------
@@ -266,8 +267,8 @@
 -------------
 
 > ### 다음과 같이 추상 클래스를 구성할거임
-<img src="../자료/1.png" width="80%" alt="추상 클래스">
-</img>
+>
+> ![1](/Users/luke/Desktop/Git/Factory/Kotlin/OOP/1.png)
 
 > ### Animal 추상 클래스
 >   * Java의 추상 클래스
@@ -397,9 +398,7 @@
 📖 인터페이스
 -------------
 
-> ### 다음과 같이 인터페이스를 구성할거임
-<img src="../자료/2.png" width="80%" alt="추상 클래스">
-</img>
+> ### 다음과 같이 인터페이스를 구성할거임![2](/Users/luke/Desktop/Git/Factory/Kotlin/OOP/2.png)
 
 > ### Flyable, Swimmable 인터페이스
 >   * Java의 인터페이스
@@ -482,8 +481,7 @@
 📖 클래스를 상속할 때 주의할 점
 -------------
 
-<img src="../자료/3.png" width="30%" alt="추상 클래스">
-</img>
+<img src="/Users/luke/Desktop/Git/Factory/Kotlin/OOP/3.png" alt="3" style="zoom: 33%;" />
 
 ```kotlin
 open class Base(
@@ -538,6 +536,143 @@ Derived(300)
 
 ***
 </br>
+
+## 📖 자바와 코틀린의 가시성 제어
+
+* ### Java와 Kotlin의 접근 제어 비교
+
+|                            모든 곳에서 접근 가능 |        public | public        | 모든 곳에서 접근 가능                              |
+| -----------------------------------------------: | ------------: | :------------ | :------------------------------------------------- |
+| **같은 패키지 또는 하위 클래스**에서만 접근 가능 | **protected** | **protected** | **선언된 클래스 또는 하위 클래스**에서만 접근 가능 |
+|                  **같은 패키지에서만** 접근 가능 |   **default** | **internal**  | **같은 모듈**에서만 적용 가능                      |
+|             선언된 **클래스 내에서만** 접근 가능 |   **private** | **private**   | 선언된 **클래스 내에서만** 접근 가능               |
+
+> * #### **Java**의 경우
+>
+> **Java**의 기본 접근 지시어는 **default**
+>
+> **Kotlin**에서는 **패키지를 namespace를 관리하기 위한 용도**로만 사용함 (가시성 제어에는 사용되지 않음)
+>
+> **모듈**이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
+>
+> 
+
+> * #### **Kotlin**의 경우
+>
+> **Kotlin**의 기본 접근 지시어는 **public**
+>
+> **Kotlin**에서는 **패키지를 namespace를 관리하기 위한 용도**로만 사용함 (가시성 제어에는 사용되지 않음)
+>
+> **모듈**이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
+
+
+
+## 📖 코틀린 파일의 접근 제어
+
+***
+**Kotlin**은 .kt 파일에 변수, 함수, 클래스를 바로 만들 수 있다.
+
+> ```kotlin
+> //해당 코드는 main.kt의 main함수 밖에 쓰여있음 
+> val a = 3
+> 
+> fun add(a: Int, b: Int): Int {
+>  return a + b
+> }
+> ```
+
++ ### Kotlin의 접근제어+
+
+|  접근제어자   |                             의미                             |
+| :-----------: | :----------------------------------------------------------: |
+|  **public**   |             **기본값** / 어디서든 접근할 수 있음             |
+| **protected** | 파일(최상단)에는 **사용 불가능** (위처럼 함수 밖, 즉 파일 자체) |
+| **internal**  |                **같은 모듈**에서만 적용 가능                 |
+|  **private**  |             선언된 **클래스 내에서만** 접근 가능             |
+
+
+
+## 📖 다양한 구성요소의 접근 제어
+
+***
+* #### **클래스 / 생성자 / 프로퍼티**의 접근 제어
+
+**클래스**의 경우엔 Java -> Kotlin의 변화 방식과 동일함
+
+**생성자**의 경우도 마찬가지로 같지만, 생성자에 접근 지시어를 붙일 경우 **constructor을 써주어야함**
+
+> ```kotlin
+> //이렇게 쓰면 안되고
+> class Member private(
+>  val username:String,
+>  val age: Int
+> )
+> //이렇게 써야함
+> class Member private constructor(
+>  val username:String,
+>  val age:Int
+> )
+> ```
+
+**유틸성 코드**를 만들 때 **Java**에서는 **추상 클래스 + private 생성자**를 사용해 인스턴스화를 막았음
+
+> ```java
+> public abstract class StringUtilsJava {
+>  private StringUtilsJava() {}
+> 
+>  public boolean isDirectoryPath(String path) {
+>      return path.endsWith("/");
+>  }
+> }
+> ```
+
+**Kotlin**도 비슷하게 가능하지만, 파일 최상단에 유틸 함수를 작성하면 같은 기능을 할 수 있음
+
+> ```kotlin
+> //해당 코드는 StringUtilsJava.kt의 파일 최상단에 있음
+> fun isDirectoryPath(path: String): Boolean {
+>  return path.endsWith("/")
+> }
+> ```
+
+**프로퍼티**도 마찬가지로 **동일**하지만 **가시성을 설정해주는 방법**이 있음
+
+> ```kotlin
+> class Car (
+>     internal val name: String,  //name에 대한 getter를 internal로 만듦
+>     private var owner:String,   //owner에 대한 getter/setter를 private으로 만듦
+>     _price:Int
+> ){
+>     var price = _price
+>         private set     //price에 대한 setter를 private으로 만듦
+> }
+> ```
+>
+> **프로퍼티를 제어**할 때는,
+>
+> * **Getter/Setter를 한번에 설정**하는 방법
+> * **Custom Setter를 설정**하는 방법
+
+
+
+## 📖 Java와 Kotlin을 함께 사용할 경우 주의할 점
+
+***
+#### **Internal**은 바이트 코드 상 **public**이 됨 
+
+#### 따라서 **Java 코드에서는 Kotlin 모듈의 internal 코드를 가져올 수 있음**
+
+
+
+예를 들어 **상위 모듈은 Java, 하위 모듈은 Kotlin**으로 이루어진 코드가 있다면
+
+**하위 모듈의 internal로 감싸진 필드나 함수를 상위 모듈의 Java에서 가져올 수 있음**
+
+
+
+같은 맥락으로, Java와 Kotlin의 protected는 다르기 때문에 **Java는 같은 패키지의 Kotlin protected 멤버에는 접근이 가능**함
+
+
 
 
 * 수강한 강의 - 자바 개발자를 위한 코틀린 입문(Java to Kotlin Starter Guide), 최태현 from 인프런
