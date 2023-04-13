@@ -76,6 +76,7 @@
 ***
 
 
+
 📖 생성자와 init
 -------------
 
@@ -117,6 +118,8 @@
 > * 값을 적절히 만들어주거나, 검증하는 로직을 넣는 용도로 사용
 > * 생성자가 호출되는 시점에 생성됨
 
+
+
 > ### 부생성자 만들어보기
 >
 >   > ### Java의 경우
@@ -150,7 +153,8 @@
 > * constructor(생성자) 블록에 바디를 작성할 수 있음
 > ### __주생성자__ 는 반드시 있어야 하며, 파라미터는 없을 수 있음
 > ### __부생성자__ 는 있을 수도 있고, 없을 수도 있음
-</br>
+
+
 
 > 다음과 같은 코드에서 __두 번째 부생성자를 실행__ 할 경우,
 > ```kotlin
@@ -175,7 +179,7 @@
 > ### 출력값: __초기화 -> 부생성자1 -> 부생성자2__
 > 역순으로 호출됨
 
-</br>
+
 
 > ### 근데 코틀린에서는 부생성자를 잘 안씀 (__Default Parameter__ 로 대체)
 > ```kotlin
@@ -195,7 +199,7 @@
 
 
 ***
-</br>
+
 
 📖 커스텀 Getter / Setter & Backing field
 -------------
@@ -476,7 +480,7 @@
 > * ### Kotlin에서는 __Backing Field__ 가 없는 프로퍼티를 인터페이스에 만들 수 있음
 
 ***
-</br>
+
 
 📖 클래스를 상속할 때 주의할 점
 -------------
@@ -525,7 +529,7 @@ Derived(300)
 
 
 ***
-</br>
+
 
 📖 상속 관련 지시어 정리
 -------------
@@ -535,7 +539,7 @@ Derived(300)
 > * ### override : 상위 타입을 오버라이드 하고 있음
 
 ***
-</br>
+
 
 ## 📖 자바와 코틀린의 가시성 제어
 
@@ -565,6 +569,8 @@ Derived(300)
 >
 > **모듈**이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
 
+***
+
 
 
 ## 📖 코틀린 파일의 접근 제어
@@ -588,6 +594,8 @@ Derived(300)
 | **protected** | 파일(최상단)에는 **사용 불가능** (위처럼 함수 밖, 즉 파일 자체) |
 | **internal**  |                **같은 모듈**에서만 적용 가능                 |
 |  **private**  |             선언된 **클래스 내에서만** 접근 가능             |
+
+***
 
 
 
@@ -651,6 +659,8 @@ Derived(300)
 > * **Getter/Setter를 한번에 설정**하는 방법
 > * **Custom Setter를 설정**하는 방법
 
+***
+
 
 
 ## 📖 Java와 Kotlin을 함께 사용할 경우 주의할 점
@@ -668,6 +678,217 @@ Derived(300)
 
 
 같은 맥락으로, Java와 Kotlin의 protected는 다르기 때문에 **Java는 같은 패키지의 Kotlin protected 멤버에는 접근이 가능**함
+
+***
+
+
+
+## 📖 Static 함수와 변수
+
+* ### Java의 Static
+
+```java
+public class JavaPersonStatic {
+
+  	//java의 static 변수
+    private static final int MIN_AGE = 1;
+
+    public static JavaPersonStatic newBaby(String name) {
+        return new JavaPersonStatic(name, MIN_AGE)
+    }
+
+    private String name;
+    private int age;
+		
+  	//Java의 static 함수
+    private JavaPersonStatic(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+
+
+* ### Kotlin의 Static
+
+```kotlin
+class PersonStatic private constructor(
+    var name:String,
+    var age:Int
+) {
+  	//Kotlin의 동행 오브젝트 (static의 역할을 함)
+    companion object{
+        private const val MIN_AGE=1		//const를 쓸 경우 컴파일 시에 변수 할당
+        fun newBaby(name: String): PersonStatic {
+            return PersonStatic(name, MIN_AGE)
+        }
+    }
+}
+```
+
+#### Kotlin에서는 **'companion object'** 블럭을 사용해 해당 블럭 안에 있는 변수와 함수를 **static으로 사용**함
+
+> ######  **Static** : 클래스가 인스턴스화 될 때, 새로운 값이 복제되는게 아니라 **정적**으로 인스턴스끼리의 값을 공유
+
+> ###### **Companion object** : 클래스와 **동행**하는 유일한 오브젝트
+>
+> * ###### Const : 진짜 상수로 쓰는 변수에 붙이기 위한 용도로 기본 타입과 String에만 붙일 수 있음
+>
+> * ###### 동반객체라는 이름으로, 하나의 객체로 간주되기 때문에 이름을 붙일 수도 있고 interface를 구현할 수도 있음
+>
+>   > ```kotlin
+>   > class PersonStatic private constructor(
+>   >     var name:String,
+>   >     var age:Int
+>   > ) {
+>   >     //Factory라는 이름을 부여하고, Log 인터페이스를 상속받음
+>   >     companion object Factory : Log{
+>   >         private const val MIN_AGE=1
+>   >         fun newBaby(name: String): PersonStatic {
+>   >             return PersonStatic(name, MIN_AGE)
+>   >         }
+>   >         //인터페이스 구현
+>   >         override fun log() {
+>   >             println("This object is Factory companion object.")
+>   >         }
+>   >     }
+>   > }
+>   > interface Log{
+>   >     fun log()
+>   > }
+>   > ```
+>
+> * ###### Companion Object에 **유틸성 함수**를 넣어도 되지만, **최상단 파일을 활용**하는 것을 추천함
+>
+> * ###### Java에서 Kotlin에 있는 static 필드나 함수를 사용하고 싶을 때는 
+>
+>   * 이름이 없을 때는 **'클래스'.Companion.'필드나 함수'** (Kotlin에서 해당 필드에 @JvmStatic 어노테이션을 사용하면 'Companion.' 생략가능)
+>   * 이름이 있을 때는 **'클래스'.'이름'**
+>
+>   ```kotlin
+>   ...
+>   companion object Factory : Log{
+>       private const val MIN_AGE=1
+>   
+>       @JvmStatic
+>       fun newBaby(name: String): PersonStatic {
+>           return PersonStatic(name, MIN_AGE)
+>       }
+>       //인터페이스 구현
+>       override fun log() {
+>           println("This object is companion object.")
+>       }
+>   }
+>   ...
+>   ```
+>
+>   ```java
+>   public class JavaMain {
+>       public static void main(String[] args) {
+>           //PersonStatic.Companion.newBaby("abc");     //이름이 없다면
+>           PersonStatic.newBaby("abc");        //@JvmStatic을 썼다면
+>           PersonStatic.Factory.newBaby("abc");    //이름을 썼다면
+>       }
+>   }
+>   ```
+
+***
+
+## 📖 Singleton
+
+### 싱글톤이란? 
+
+* ###### 단 하나의 인스턴스만을 갖는 클래스
+
+##### **Java**에서는 static 영역에 인스턴스를 만들어서 'getInstance()'함수로 하나만 가져오게 하는 방법을 사용함
+
+```java
+public class JavaSingleton {
+
+    private static final JavaSingleton INSTANCE = new JavaSingleton();
+
+    public JavaSingleton() {}
+
+    public static JavaSingleton getInstance() {
+        return INSTANCE;
+    }
+}
+```
+
+###### 해당 코드에서 동시성처리를 좀더 해주거나 enum 클래스를 활용하는 방법도 있음
+
+##### 하지만 Kotlin에서는
+
+```kotlin
+object KotlinSingleton {}
+```
+
+## 끝
+
+###### 인스턴스화가 따로 필요없음
+
+***
+
+## 📖 익명 클래스
+
+### 익명 클래스란?
+
+* ###### 특정 인터페이스나 클래스를 상속받은 구현체를 일회성으로 사용할 때 쓰는 클래스
+
+##### Java에서는 다음처럼 사용함
+
+```java
+public class JavaMain {
+    public static void main(String[] args) {
+        moveSomething(new Movable() {
+            @Override
+            public void move() {
+                System.out.println("Move");
+            }
+
+            @Override
+            public void fly() {
+                System.out.println("Fly"); 
+            }
+        });
+    }
+
+    private static void moveSomething(Movable movable) {
+        movable.move();
+        movable.fly();
+    }
+}
+```
+
+##### Kotlin의 경우,
+
+```kotlin
+fun main() {
+    moveSomething(object : Movable{		//object 키워드를 사용함
+        override fun move() {
+            println("Move")
+        }
+
+        override fun fly() {
+            println("Fly")
+        }
+    })
+}
+
+private fun moveSomething(movable: Movable) {
+    movable.move()
+    movable.fly()
+}
+```
+
+###### Java처럼 'new 클래스(){오버라이드}' 형식이 아닌 **'object : 클래스{오버라이드}'**의 형식을 사용
+
+
+
+***
+
+
 
 
 
