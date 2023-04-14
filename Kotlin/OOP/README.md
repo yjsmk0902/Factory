@@ -63,7 +63,7 @@
 > ) 
 > ```
 >
-> + __'.필드'__ 를 통해 Getter/Setter를 바로 호출한다
+> + <span style="color:greenyellow">__'.필드'__</span> 를 통해 Getter/Setter를 바로 호출한다
 > ```kotlin
 >   val person = Person("Luke", 10)
 >   println(person.name)    //Getter
@@ -148,8 +148,8 @@
 >       ...
 >    }
 > ```
-> * __'constructor(파라미터)'__ 로 생성자를 추가
-> * __'this(파라미터)'__ 로 위에 있는 생성자를 호출
+> * <span style="color:greenyellow">__'constructor(파라미터)'__ </span>로 생성자를 추가
+> * <span style="color:greenyellow">__'this(파라미터)'__ </span>로 위에 있는 생성자를 호출
 > * constructor(생성자) 블록에 바디를 작성할 수 있음
 > ### __주생성자__ 는 반드시 있어야 하며, 파라미터는 없을 수 있음
 > ### __부생성자__ 는 있을 수도 있고, 없을 수도 있음
@@ -251,9 +251,9 @@
 > ```
 > field가 아닌 name을 쓰면 호출이 무한루프를 돌게 됨
 >
-> 따라서 자기 자신을 호출하는 경우에는 __'field'__ 를 사용
+> 따라서 <span style="color:yellow">자기 자신을 호출하는 경우에는 <span style="color:yellowgreen">__'field'__ </span></span>를 사용
 >
-> 이것을 __Backing field__ 라고 부름
+> 이것을 <span style="color:yellow">__Backing field__ </span>라고 부름
 
 > ### name을 set할때 무조건 대문자로 바꾸기
 > ```kotlin
@@ -262,7 +262,7 @@
 >           field = value.uppercase()
 >       }
 > ```
-> 사실 __Setter 자체를 지양__ 하기 때문에 Custom Setter도 잘 안씀
+> 사실 <span style="color:tomato">__Setter 자체를 지양__ 하기 때문에 Custom Setter도 잘 안씀</span>
 
 ***
 </br>
@@ -342,7 +342,7 @@
 >     }
 > }
 > ```
-> - extends 대신에 __':'__ 을 써서 상속받음
+> - extends 대신에 <span style="color:yellowgreen">__':'__ </span>을 써서 상속받음
 > - 상위 클래스의 생성자를 바로 호출해야함
 
 > ### Penguin 상속 클래스
@@ -391,7 +391,7 @@
 >         get() = super.legCount + this.wingCount> 
 > }
 > ```
-> ### __중요!!__ 프로퍼티를 오버라이드 할때는 부모 클래스에서 __open__ 으로 열어줘야함 
+> ### <span style="color:tomato">__중요!!__ 프로퍼티를 오버라이드 할때는 부모 클래스에서 __open__ 으로 열어줘야함 </span>
 
 > * ### 상위 클래스에 접근할 때는 Java, Kotlin 모두 super를 사용함
 > * ### Java, Kotlin 모두 추상 클래스를 인스터스화 할수 없음
@@ -475,7 +475,7 @@
 > }
 > ```
 > * ### 상속과 같이 상속받는 클래스를 이어서 적어줌으로써 상속 가능
-> * ### 중복되는 인터페이스를 특정할때 __'super<타입>.함수'__ 사용
+> * ### 중복되는 인터페이스를 특정할때 <span style="color:yellowgreen">__'super<타입>.함수'__ </span>사용
 > * ### Java, Kotlin 모두 인터페이스를 인스터스화 할 수 없음
 > * ### Kotlin에서는 __Backing Field__ 가 없는 프로퍼티를 인터페이스에 만들 수 있음
 
@@ -524,8 +524,8 @@ Derived(300)
 >
 > 따라서 0이 출력됨
 
-> ### __상위 클래스의 constructor와 init 블럭에서는 하위 클래스의 필드에 접근하면 안됨__
-> 고로 상위클래스를 설계할 때 생성자 또는 초기화 블록에 사용되는 프로퍼티에는 __'open'을 피해야 함__
+> ### <span style="color:tomato">__상위 클래스의 constructor와 init 블럭에서는 하위 클래스의 필드에 접근하면 안됨__</span>
+> 고로 상위클래스를 설계할 때 <span style="color:tomato">생성자 또는 초기화 블록에 사용되는 프로퍼티에는 __'open'을 피해야 함__</span>
 
 
 ***
@@ -554,12 +554,6 @@ Derived(300)
 > * #### **Java**의 경우
 >
 > **Java**의 기본 접근 지시어는 **default**
->
-> **Kotlin**에서는 **패키지를 namespace를 관리하기 위한 용도**로만 사용함 (가시성 제어에는 사용되지 않음)
->
-> **모듈**이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
->
-> 
 
 > * #### **Kotlin**의 경우
 >
@@ -567,7 +561,7 @@ Derived(300)
 >
 > **Kotlin**에서는 **패키지를 namespace를 관리하기 위한 용도**로만 사용함 (가시성 제어에는 사용되지 않음)
 >
-> **모듈**이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
+> <span style="color:yellow">**모듈**</span>이란? **한 번에 컴파일되는 Kotlin 코드**를 의미함 ex) IDEA Module / Maven Project / Gradle Source Set ...etc
 
 ***
 
@@ -605,7 +599,7 @@ Derived(300)
 
 **클래스**의 경우엔 Java -> Kotlin의 변화 방식과 동일함
 
-**생성자**의 경우도 마찬가지로 같지만, 생성자에 접근 지시어를 붙일 경우 **constructor을 써주어야함**
+**생성자**의 경우도 마찬가지로 같지만, 생성자에 접근 지시어를 붙일 경우 <span style="color:yellow">**constructor을 써주어야함**</span>
 
 > ```kotlin
 > //이렇게 쓰면 안되고
@@ -632,7 +626,7 @@ Derived(300)
 > }
 > ```
 
-**Kotlin**도 비슷하게 가능하지만, 파일 최상단에 유틸 함수를 작성하면 같은 기능을 할 수 있음
+**Kotlin**도 비슷하게 가능하지만, <span style="color:yellow">파일 최상단에 유틸 함수를 작성</span>하면 같은 기능을 할 수 있음
 
 > ```kotlin
 > //해당 코드는 StringUtilsJava.kt의 파일 최상단에 있음
@@ -667,17 +661,17 @@ Derived(300)
 
 #### **Internal**은 바이트 코드 상 **public**이 됨 
 
-#### 따라서 **Java 코드에서는 Kotlin 모듈의 internal 코드를 가져올 수 있음**
+#### 따라서 <span style="color:yellow">**Java 코드에서는 Kotlin 모듈의 internal 코드를 가져올 수 있음**</span>
 
 
 
 예를 들어 **상위 모듈은 Java, 하위 모듈은 Kotlin**으로 이루어진 코드가 있다면
 
-**하위 모듈의 internal로 감싸진 필드나 함수를 상위 모듈의 Java에서 가져올 수 있음**
+<span style="color:yellow">**하위 모듈의 internal로 감싸진 필드나 함수를 상위 모듈의 Java에서 가져올 수 있음**</span>
 
 
 
-같은 맥락으로, Java와 Kotlin의 protected는 다르기 때문에 **Java는 같은 패키지의 Kotlin protected 멤버에는 접근이 가능**함
+같은 맥락으로, Java와 Kotlin의 protected는 다르기 때문에 <span style="color:yellow">**Java는 같은 패키지의 Kotlin protected 멤버에는 접근이 가능**</span>함
 
 ***
 
@@ -727,7 +721,7 @@ class PersonStatic private constructor(
 }
 ```
 
-#### Kotlin에서는 **'companion object'** 블럭을 사용해 해당 블럭 안에 있는 변수와 함수를 **static으로 사용**함
+#### Kotlin에서는 <span style="color:yellowgreen">**'companion object'**</span> 블럭을 사용해 해당 블럭 안에 있는 변수와 함수를 **static으로 사용**함
 
 > ######  **Static** : 클래스가 인스턴스화 될 때, 새로운 값이 복제되는게 아니라 **정적**으로 인스턴스끼리의 값을 공유
 
@@ -759,18 +753,18 @@ class PersonStatic private constructor(
 >   > }
 >   > ```
 >
-> * ###### Companion Object에 **유틸성 함수**를 넣어도 되지만, **최상단 파일을 활용**하는 것을 추천함
+> * ###### Companion Object에 **유틸성 함수**를 넣어도 되지만, <span style="color:yellow">**최상단 파일을 활용**하는 것을 추천</span>함
 >
 > * ###### Java에서 Kotlin에 있는 static 필드나 함수를 사용하고 싶을 때는 
 >
->   * 이름이 없을 때는 **'클래스'.Companion.'필드나 함수'** (Kotlin에서 해당 필드에 @JvmStatic 어노테이션을 사용하면 'Companion.' 생략가능)
->   * 이름이 있을 때는 **'클래스'.'이름'**
+>   * 이름이 없을 때는 <span style="color:yellowgreen">**'클래스'.Companion.'필드나 함수'**</span> (Kotlin에서 해당 필드에 @JvmStatic 어노테이션을 사용하면 'Companion.' 생략가능)
+>   * 이름이 있을 때는 <span style="color:yellowgreen">**'클래스'.'이름'**</span>
 >
 >   ```kotlin
 >   ...
 >   companion object Factory : Log{
 >       private const val MIN_AGE=1
->     
+>       
 >       @JvmStatic
 >       fun newBaby(name: String): PersonStatic {
 >           return PersonStatic(name, MIN_AGE)
@@ -801,7 +795,7 @@ class PersonStatic private constructor(
 
 * ###### 단 하나의 인스턴스만을 갖는 클래스
 
-##### **Java**에서는 static 영역에 인스턴스를 만들어서 'getInstance()'함수로 하나만 가져오게 하는 방법을 사용함
+##### **Java**에서는 static 영역에 인스턴스를 만들어서 <span style="color:yellowgreen">'getInstance()'</span>함수로 하나만 가져오게 하는 방법을 사용함
 
 ```java
 public class JavaSingleton {
@@ -882,13 +876,113 @@ private fun moveSomething(movable: Movable) {
 }
 ```
 
-###### Java처럼 'new 클래스(){오버라이드}' 형식이 아닌 **'object : 클래스{오버라이드}'**의 형식을 사용
+###### Java처럼 'new 클래스(){오버라이드}' 형식이 아닌<span style="color:yellowgreen"> **'object : 클래스{오버라이드}'**</span>의 형식을 사용
+
+
+
+## 📖 중첩 클래스의 종류
+
+* ### Java의 중첩 클래스
+
+  > * ##### Static을 사용하는 중첩 클래스
+  >
+  >   밖의 클래스를 직접 참조할 수 없음
+
+  > * ##### Static을 사용하지 않는 중첩 클래스
+  >
+  >   * ###### 내부 클래스 (Inner Class)
+  >
+  >     밖의 클래스를 직접 참조 가능
+  >
+  >   * ###### 지역 클래스 (Local Class)
+  >
+  >     메소드 내부에 클래스를 정의 (이렇게 쓸 일이 있나..? 나도 못본듯)
+  >
+  >   * ###### 익명 클래스 (Anonymous Class)
+  >
+  >     일회성 클래스
+
+  ```java
+  public class JavaHouse {
+  
+      private String address;
+      private LivingRoom livingRoom;
+  
+      public JavaHouse(String address, LivingRoom livingRoom) {
+          this.address = address;
+          this.livingRoom = new LivingRoom(10);
+      }
+  
+      public LivingRoom getLivingRoom() {
+          return livingRoom;
+      }
+  
+      //내부 클래스 (static 권장)
+      public static class LivingRoom{
+          private double area;
+  
+          public LivingRoom(double area) {
+              this.area = area;
+          }
+          ////바깥 클래스와 연결되어 있음
+          //public String getAddress() {
+          //    return JavaHouse.this.address;
+          //}
+      }
+  }
+  ```
+
+> 하지만 위 코드와 같이 static 필드를 쓰지 않는 내부 클래스를 사용할 경우 몇 가지 문제점이 발생함 (Effective Java 3rd Edition 중...)
+>
+> + 내부 클래스가 외부 클래스를 참조함으로 인해서 참조해지를 못할 경우 메모리 누수가 생길 수 있고 이를 디버깅하기 힘들다
+>
+> + 내부 클래스의 직렬화 형태가 명확하게 정의되어있지 않아 직렬화에 있어서 제한이 있음
+>
+> ### 그래서 클래스 안에 클래스를 만들 때에는 <span style="color:tomato">static 클래스를 사용해야 함</span>을 권장
 
 
 
 ***
 
 
+
+## 📖 Kotlin의 중첩 클래스와 내부 클래스
+
+### Kotlin에서는 위와 같은 권장 사항을 충실하게 따르고 있음
+
+```kotlin
+class KotlinHouse (
+    private val address:String,
+    private val livingRoom: LivingRoom = LivingRoom(10.0)
+){
+    //코틀린의 중첩 클래스
+    class LivingRoom (
+        private val area:Double
+    ){
+
+    }
+}
+```
+
+#### 기본적으로 바깥 클래스에 대한 연결이 없는 중첩 클래스가 알아서 만들어짐
+
+```kotlin
+//코틀린의 중첩 클래스
+inner class LivingRoom (
+    private val area:Double
+){
+    val address:String
+        get() = this@KotlinHouse.address
+}
+```
+
+#### inner를 붙일 시에 권장되지 않는 클래스안의 클래스의 경우,
+
++ ##### 다음처럼 <span style="color:yellowgreen">'inner' </span>키워드를 명시적으로 붙여주면 됨
+
++ ##### 바깥 클래스와 연결시킬 경우는 <span style="color:yellowgreen">'this@바깥클래스.프로퍼티'</span>로 연결해서 사용함
+
+***
 
 
 
