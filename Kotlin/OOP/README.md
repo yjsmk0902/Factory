@@ -764,7 +764,7 @@ class PersonStatic private constructor(
 >   ...
 >   companion object Factory : Log{
 >       private const val MIN_AGE=1
->       
+>         
 >       @JvmStatic
 >       fun newBaby(name: String): PersonStatic {
 >           return PersonStatic(name, MIN_AGE)
@@ -981,6 +981,202 @@ inner class LivingRoom (
 + ##### 다음처럼 <span style="color:yellowgreen">'inner' </span>키워드를 명시적으로 붙여주면 됨
 
 + ##### 바깥 클래스와 연결시킬 경우는 <span style="color:yellowgreen">'this@바깥클래스.프로퍼티'</span>로 연결해서 사용함
+
+***
+
+## 📖 Data Class
+
++ ### Java에서 계층간의 데이터를 전달하기 위한 DTO(Data Transfer Object)
+
+```java
+import java.util.Objects;
+
+public class JavaPersonDto {
+    private final String name;
+    private final int age;
+
+    public JavaPersonDto(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JavaPersonDto that = (JavaPersonDto) o;
+        return getAge() == that.getAge() && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getAge());
+    }
+
+    @Override
+    public String toString() {
+        return "JavaPersonDto{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+```
+
+> #### 다음과 같은 메소드를 가짐
+>
+> + ##### 데이터(필드)
+>
+> + ##### 생성자와 Getter
+>
+> + ##### Equals
+>
+> + ##### hashCode
+>
+> + ##### toString
+
+#### 다음과 같이 <span style="color:yellow">IDE</span>를 활용할 수도 있고, <span style="color:yellow">Lombok</span>을 활용할 수도 있지만
+
+#### <span style="color:tomato">클래스가 장황</span>해지거나, <span style="color:tomato">클래스 생성 이후 추가적인 처리(어노테이션)</span>를 해줘야 하는 ㄹ단점이 있음
+
++ ### Kotlin에서 계층간의 데이터를 전달하기 위한 DTO(Data Transfer Object)
+
+```kotlin
+data class PersonDto(
+    private val name: String,
+    private val age: Int
+) {
+}
+```
+
+#### 놀랍게도 이렇게<span style="color:yellow"> class 앞에 data</span> 하나만 써주면 Java에서의 Dto와 같은 역할을 하는 클래스가 됨 (대박신기)
+
+###### +name argument까지 활용하면 <span style="color:yellow">builder pattern</span>을 쓰는 것 같은 효과도 있음
+
+###### +Java도 이와 같은 record class를 JDK16부터 도입하기는 함
+
+***
+
+## 📖 Enum Class
+
+* ### Java에서 Enum Class
+
+```java
+public enum JavaCountry {
+    Korea("KO"),
+    AMERICA("US");
+
+    private final String code;
+
+    JavaCountry(String code) {
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+}
+```
+
+Enum Class는 추가적인 클래스를 상속받을 수 없지만, 인터페이스는 구현할 수 있으며, 각 코드가 싱글톤임
+
+* ### Kotlin에서 Enum Class
+
+```kotlin
+enum class Country (
+    private val code:String
+){
+    KOREA("KO"),
+    AMERICA("US")
+}
+```
+
+뭐 예상했다시피 Kotlin에서는 생성자와 Getter의 압축도가 높으니 코드는 다음과 같이 작성됨
+
+#### 하지만 Kotlin에서는 <span style="color:yellowgreen">when</span>이라는 키워드가 있음 (예전 공부에서 Enum/Sealed 클래스와 아주 결합이 좋다고 했었음)
+
+##### 예를 들어 Java에서 다음과 같은 코드를 작성할 때,
+
+```java
+private static void handleCountry(JavaCountry country) {
+    if (country == JavaCountry.KOREA) {
+        //Logic
+    }
+    if (country == JavaCountry.AMERICA) {
+        //Logic
+    }
+}
+```
+
+If-else문이 많아짐 = 코드가 길어짐
+
+##### 하지만 Kotlin에서 when을 사용하게 된다면,
+
+```kotlin
+fun handleCountry(country: Country) {
+    when (country) {
+        Country.KOREA -> TODO()
+        Country.AMERICA -> TODO()
+    }
+}
+```
+
+다음과 같이 깔끔한 코드로 정리할 수가 있음
+
+##### 만약 Enum Class에 다른 요소가 추가된다 하더라도 해당 함수의 when이 warning을 통해 알려주기도 함
+
+하지만 Java는 그런게 없음
+
+***
+
+## 📖 Sealed Class, Sealed Interface
+
+### Sealed Class?
+
++ ##### Sealed = 봉인을 한 / 포장된 / 해결된 이라는 의미를 가짐
+
++ ##### 상속이 가능한 추상클래스를 만들고 싶은데 외부에서는 상속받지 않았으면 좋겠을 때 사용함
+
++ ##### <span style="color:yellow">컴파일 타임 때 하위 클래스의 타입을 모두 기억함</span> (런타임 때 클래스 타입이 추가될 수 없음)
+
++ ##### 하위 클래스는 같은 패키지에 있어야함
+
+```kotlin
+sealed class HyundaiCar(
+    val name: String,
+    val price: Long
+)
+
+class Avante : HyundaiCar("아반떼", 1_000L)
+
+class Sonata : HyundaiCar("소나타", 2_000L) 
+
+class Grandeur : HyundaiCar("그랜저", 3_000L) 
+```
+
+```kotlin
+private fun handleCar(car: HyundaiCar) {
+    when (car) {
+        is Avante -> TODO()
+        is Sonata -> TODO()
+        is Grandeur -> TODO()
+    }
+}
+```
+
+Enum 클래스에서 공부했던 것과 마찬가지로 코드가 간결하고 읽기가 쉬움
+
+##### 보통 <span style="color:yellow">추상화가 필요한 Entity나 DTO</span>에 Sealed Class를 활용함
+
++Java의 JDK17에서도 Sealed Class가 추가되긴 함
 
 ***
 
