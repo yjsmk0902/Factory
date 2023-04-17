@@ -178,5 +178,125 @@ Java는 nullable 타입과 non-nullable 타입을 구분하지 않음
 
 ***
 
+## 📖 확장함수
+
+ Kotlin은 기본적으로 Java와 100% 호환하는 것을 목표로 함
+
+기존 Java위에 자연스럽게 Kotlin 코드를 추가할 수는 없을까?
+
+##### 함수의 코드 자체는 클래스 밖에 있지만, 마치 클래스 안에 있는 멤버함수처럼 호출해서 사용 ( = 확장함수)
+
+```kotlin
+//String 클래스를 확장하는 확장함수
+fun String.lastChar(): Char {
+    return this[this.length - 1]	//this를 이용해 실제 클래스 안의 값에 접근
+}
+```
+
++ <span style="color:yellowgreen">'fun 확장하려는 클래스.함수이름(파라미터):리턴타입{}'</span>과 같은 형식으로 만들 수 있음
++ <span style="color:yellowgreen">'this'</span>를 통해서 실제 클래스 안의 값에 접근 가능 (수신 객체 )
++ 확장함수는 클래스에 있는 private/protected 멤버를 가져올 수 없음 (캡슐화가 깨지는 것처럼 보여짐)
++ 확장함수와 멤버함수의 시그니처가 같다면,<span style="color:yellow"> 멤버함수가 우선적으로</span> 호출됨
++ 확장함수 오버라이딩이 일어난 경우엔 해당 변수의 <span style="color:yellow">현재 타입에 따라</span> 어떤 확장함수가 호출될지 결정됨
+
+```kotlin
+open class Train(
+    val name: String = "새마을 기차",
+    val price: Int = 5_000
+)
+
+fun Train.isExpensive(): Boolean {
+    println("Train의 확장함수")
+    return this.price>=10000
+}
+
+class Srt:Train("SRT", 40_000)
+
+fun Srt.isExpensive(): Boolean {
+    println("SRT의 확장함수")
+    return this.price>=10000
+}
+
+fun test() {
+    val train: Train = Train()
+    train.isExpensive() //Train의 확장함수 호출됨
+    val srt1: Train = Srt()
+    srt1.isExpensive()  //Train의 확장함수 호출됨
+    val srt2: Srt = Srt()
+    srt2.isExpensive()  //SRT의 확장함수 호출됨
+}
+```
+
++ 확장함수 + Custom Getter를 써서 <span style="color:yellow">확장 프로퍼티</span>를 만드는 것도 가능
+
+```kotlin
+//String 클래스를 확장하는 확장프로퍼티
+val String.lastChar:Char
+    get() = this[this.length - 1]
+```
+
+
+
+***
+
+## 📖 infix 함수
+
+#### 함수를 호출하는 새로운 방법임 (ex. downTo, step)
+
+원래는 '변수.함수이름(argument)'로 호출하지만 중위함수의 경우엔 <span style="color:yellow">'변수 함수이름 argument'</span>로 호출함
+
+```kotlin
+//일반함수
+fun Int.add(other: Int): Int {
+    return this + other
+}
+//중위함수
+infix fun Int.add2(other: Int): Int {
+    return this + other
+}
+
+    3.add(4)        //일반 확장함수
+    3.add2(4)       //Infix 함수 (일반함수처럼 사용가능)
+    3 add2 4            //Infix 함수
+```
+
++ 중위함수는 일반함수처럼도 사용이 가능함
++ 예시에는 확장함수에 붙여 사용했지만 당연히 일반함수에도 붙여서 사용할 수 있음
+
+***
+
+## 📖 inline 함수
+
+함수가 호출되는 대신, 함수를 호출한 지점에 함수 본문을 그대로 복붙하고 싶은 경우 사용함
+
+함수를 파라미터로 전달할 때에 오버헤드를 줄일 수 있지만, inlin함수의 사용은 성능측정과 함께 신중해야함
+
+***
+
+## 📖 지역함수
+
+함수안에 함수로 코드가 중복되는 경우 함수안에 함수를 만들어 코드를 간결화 할 수 있음
+
+함수로 추출하면 좋을 것 같은데, 해당 함수를 지금 함수 내에서만 사용하고 싶을 경우 사용함
+
+```kotlin
+fun createPerson(firstName: String, lastName: String): Person {
+    //지역함수
+    fun validateName(name: String, fieldName: String) {
+        if (name.isEmpty()) {
+            throw IllegalArgumentException("${fieldName}은 비어있을 수 없습니다. 현재 값 : ${name}")
+        }
+    }
+    validateName(firstName, "firstName")
+    validateName(lastName, "lastName")
+
+    return Person(firstName, lastName, 1)
+}
+```
+
+하지만 depth가 깊어지기도 하고 코드가 생각보다 깔끔하지는 않음 (위같은 경우도 그냥 Person 클래스에서 검증하는게 나을듯)
+
+***
+
 + 수강한 강의 - 자바 개발자를 위한 코틀린 입문(Java to Kotlin Starter Guide), 최태현 from 인프런
   <https://www.inflearn.com/course/java-to-kotlin/dashboard>
