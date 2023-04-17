@@ -764,7 +764,7 @@ class PersonStatic private constructor(
 >   ...
 >   companion object Factory : Log{
 >       private const val MIN_AGE=1
->         
+>           
 >       @JvmStatic
 >       fun newBaby(name: String): PersonStatic {
 >           return PersonStatic(name, MIN_AGE)
@@ -1179,6 +1179,127 @@ Enum 클래스에서 공부했던 것과 마찬가지로 코드가 간결하고 
 +Java의 JDK17에서도 Sealed Class가 추가되긴 함
 
 ***
+
+## 📖 배열
+
+사실 배열은 잘 안씀. (Effective Java에서도 '배열보다는 리스트를 사용하라'라고 함)
+
+그치만 일단 배워보자
+
++ ### Java에서의 배열
+
+```java
+int[] array = {100, 200};
+for (int i = 0; i < array.length; i++) {
+    System.out.printf("%s %s", i, array[i]);
+}
+```
+
++ ### Kotlin에서의 배열
+
+```kotlin
+val array = arrayOf(100, 200)
+//array 안을 돌리기
+for (i in array.indices) {
+    println("${i} ${array[i]}")
+}
+//index와 같이 뽑기
+for ((idx, value) in array.withIndex()) {
+    println("${idx} ${value}")
+}
+```
+
+> + ##### <span style="color:yellowgreen">배열.indices</span> : 0부터 마지막 index까지의 범위
+>
+> + ##### <span style="color:yellowgreen">배열.withIndex()</span> : indices와 같지만 인덱스와 값을 한 번에 가져올 수 있음
+
+***
+
+## 📖 Kotlin에서의 Collection - List / Set / Map
+
++ ### Kotlin의 Collection 계층구조
+
+<img src="4.png" alt="4" style="zoom: 67%;" />
+
+> + #### 불변 컬렉션 : Collection에 element를 추가, 삭제할 수 없음
+>
+>   + ###### Collection을 만들자 마자 Collections.unmodifiableList()  등을 붙여줌
+>
+> + #### <span style="color:yellow">가변(Mutable)</span> 컬렉션 : Collection에 element를 추가, 삭제할 수 있음
+
+### <span style="color:tomato">Kotlin은 무조건 불변/가변을 지정해 주어야함!!</span>
+
+### Collection - List
+
++ ##### Java의 List
+
+```java
+final List<Integer> numbers = Arrays.asList(100, 200);
+```
+
++ ###### Kotlin의 List
+
+```kotlin
+val numbers = listOf(100, 200)
+val mutableNumbers = mutableListOf(100, 200)
+val emptyList = emptyList<Int>()	//빈 리스트 만들기 - 타입을 명시해줌
+println(numbers[0])		//element 가져오기
+mutableNumbers.add(300) 	//가변 리스트에 element 추가하기
+```
+
+> + <span style="color:yellowgreen">listOf()</span>를 통해 불변리스트를 만들어 줄 수 있음
+> + 빈 List를 만들 경우 타입을 명시해 주어야 함
+> + 일반 배열처럼 ''배열.get()' 외에도 <span style="color:yellowgreen">'리스트[idx]'</span>로 element를 가져올 수 있음
+
+> + <span style="color:yellowgreen">mutableListOf()</span>를 통해 가변리스트를 만들어 줄 수 있음
+> + ArrayList가 기본 구현체임
+> + <span style="color:yellowgreen">'리스트.add(요소)'</span>로 element를 추가해줄 수 있음
+
+##### 간단한 TIP 우선 불변리스트를 만들고, 꼭 필요한 경우 가변 리스트로 바꾸자!!
+
+### Collection - Set
+
++ List와 다르게 순서가 없고, 같은 element 하나만 존재할 수  있음 (List와 대부분 비슷)
+
+```kotlin
+val numbers = setOf(100, 200)
+val mutableSet = mutableSetOf(100,200)
+val emptyList = emptySet<Int>()		//빈 리스트 만들기 - 타입을 명시해줌
+mutableSet.add(300)		//가변집합에 element 추가하기
+```
+
+> + <span style="color:yellowgreen">setOf()</span>를 통해 불변집합을 만들어 줄 수 있음
+> + 빈 Set을 만들 경우 타입을 명시해 주어야 함
+
+> + <span style="color:yellowgreen">mutableListOf()</span>를 통해 가변리스트를 만들어 줄 수 있음
+> + LinkedHashSet이 기본 구현체임
+> + <span style="color:yellowgreen">'집합.add(요소)'</span>로 element를 추가해줄 수 있음
+
+
+
+
+
+***
+
+
+
+## 📖 컬렉션의 null 가능성 / Java와 함께 사용하기
+
+
+
+
+
+
+
+***
+
+
+
+
+
+
+
+
 
 
 

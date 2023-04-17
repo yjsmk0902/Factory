@@ -27,6 +27,23 @@ fun main() {
             println("Fly")
         }
     })
+
+    val array = arrayOf(100, 200)
+    //array 안을 돌리기
+    for (i in array.indices) {
+        println("${i} ${array[i]}")
+    }
+    //index와 같이 뽑기
+    for ((idx, value) in array.withIndex()) {
+        println("${idx} ${value}")
+    }
+
+    val numbers = listOf(100, 200)
+    val emptyList = emptyList<Int>()
+
+    val setNumbers = setOf(100, 200)
+    val emptySet = emptySet<Int>()
+
 }
 
 private fun moveSomething(movable: Movable) {
