@@ -559,5 +559,165 @@ filterFruits(fruits) { it.name == targetFruitName }
 
 ***
 
+## 📖 Filter&Map
+
++ ### Filter
+
+```kotlin
+val apples = fruits.filter{fruit->fruit.name=="사과"}		//이름이 사과인 애들 뽑기
+```
+
+##### <span style="color:yellowgreen">'컬렉션.filter{(컬렉션에 있는 요소)->Boolean}'</span>형식으로 사용하여 저장됨
+
+```kotlin
+val applesIdx = fruits.filterIndexed(){ idx, fruit ->
+    println(idx)
+    fruit.name == "사과"
+}		//이름이 사과인 애들 뽑기 + 인덱스 사용
+```
+
+##### <span style="color:yellowgreen">'컬렉션.filterIndexed{idx, (컬렉션에 있는 요소)->Boolean}'</span>형식으로 인덱스도 가져올 수 있음
+
++ ### Map
+
+```kotlin
+//사과인 애들의 현재 가격을 뽑기
+val applePrice = fruits.filter{it.name=="사과"}.map { it.currentPrice }
+```
+
+##### <span style="color:yellowgreen">'컬렉션.map{(컬렉션에 있는 요소)->원하는 요소}'</span>형식으로 해당 요소들만 뽑아볼 수 있음
+
+```kotlin
+val applePriceIndex = fruits.filter{ it.name = "사과"}.mapIndexed{ idx, fruit ->
+    println(idx)
+    fruit.currentPrice
+}		//사과인 애들의 현재 가격을 뽑기 + 인덱스 사용
+```
+
+##### <span style="color:yellowgreen">'컬렉션.map{idx, (컬렉션에 있는 요소)->원하는 요소}'</span>형식으로 인덱스도 가져올 수 있음
+
+```kotlin
+val appleNull = fruits.filter{it.name=="사과"}.mapNotNull{fruit: Fruit -> fruit.nullOrValue() }		//사과인 애들의 nullOrValue()에 해당하는 값 중 null이 아닌 것만 뽑기
+```
+
+##### <span style="color:yellowgreen">'컬렉션.mapNotNull{(컬렉션에 있는 요소)->원하는 요소}'</span>형식으로 해당 요소들 중 null이 아닌 것만 뽑아볼 수 있음
+
+***
+
+## 📖 다양한 Collection 처리 기능
+
++ ### all
+
+```kotlin
+val isAppleAll = fruits.all{ it.name == "사과"}		//컬렉션 안의 모든 name이 사과면 true
+```
+
+##### <span style="color:yellowgreen">'컬렉션.all{(컬렉션에 있는 요소)->Boolean}'</span>형식으로 컬렉션을 조사해서 모두 해당할 경우 true, 아니면 false
+
++ ### None
+
+```kotlin
+val isAppleNone = fruits.none{ it.name == "사과"}		//컬렉션 안의 모든 name이 사과가 아니면 true
+```
+
+##### <span style="color:yellowgreen">'컬렉션.none{(컬렉션에 있는 요소)->Boolean}'</span>형식으로 컬렉션을 조사해서 모두 해당할 경우 true, 아니면 false
+
++ ### Any
+
+```kotlin
+val isAppleAny = fruits.any{ it.name == "사과"}		//컬렉션 안의 name 중 하나라도 사과면 true
+```
+
+##### <span style="color:yellowgreen">'컬렉션.any{(컬렉션에 있는 요소)->Boolean}'</span>형식으로 컬렉션을 조사해서 하나라도 해당하면 true
+
++ ### Count
+
+```kotlin
+val fruitCount = fruits.count()     //컬렉션의 사이즈
+```
+
+##### <span style="color:yellowgreen">'컬렉션.count'</span>형식으로 컬렉션의 사이즈를 구함
+
++ ### SortedBy(Decending)
+
+```kotlin
+val fruitCountSortedBy = fruits.sortedBy{ it.currentPrice }     //현재가를 오름차순으로 정렬 저장
+```
+
+##### <span style="color:yellowgreen">'컬렉션.sortedBy{(컬렉션에 있는 요소)->원하는 요소}'</span>형식으로 오름차순 정렬 후 저장
+
++ ### DistinctBy
+
+```kotlin
+val fruitDistinctBy = fruits.distinctBy{it.name}    //같은 이름인 애들 중복 제거
+```
+
+##### <span style="color:yellowgreen">'컬렉션.destinctBy{(컬렉션에 있는 요소)->Boolean}'</span>형식으로 컬렉션 요소를 탐색해 중복 제거
+
++ ### First / FirstOrNull / Last / LastOrNull
+
+```kotlin
+val fruitFirst = fruits.first()     //첫번째 요소를 가져옴(null이면 안됨)
+val fruitFirstOrNull = fruits.firstOrNull() //첫번째 요소를 가져옴
+val fruitLast = fruits.last()       //마지막 요소를 가져옴(null이면 안됨)
+val fruitLastOrNull = fruits.lastOrNull()   //마지막 요소를 가져옴
+```
+
+***
+
+## 📖 List to Map
+
++ ### 과일이름 -> List<과일>
+
+```kotlin
+//Key: 과일이름 / Value: 리스트<과일>
+val map: Map<String, List<Fruit>> =fruits.groupBy{ it.name }
+```
+
+##### <span style="color:yellowgreen">'컬렉션.groupBy'</span>를 사용
+
++ ### Id -> 과일
+
+```kotlin
+//Key: ID / Value: 과일
+val mapAssociate: Map<String, Fruit> = fruits.associateBy { it.id } 
+```
+
+##### <span style="color:yellowgreen">'컬렉션.associateBy'</span>를 사용
+
++ ### 과일이름 -> 출고가
+
+```kotlin
+//Key: 과일이름 / Value: 출고가
+val mapGroup2: Map<String, List<Unit>> = fruits.groupBy({ it.name }, { it.factoryPrice })
+```
+
+##### <span style="color:yellowgreen">'컬렉션.groupBy'</span>를 사용
+
++ ### Id -> 출고가
+
+```kotlin
+//Key: ID / Value: 출고가
+val mapAssociate2 = fruits.associateBy({it.id}, {it.factoryPrice})
+```
+
+##### <span style="color:yellowgreen">'컬렉션.associateBy'</span>를 사용
+
+
+
+***
+
+## 📖 중첩된 Collection 처리
+
++ ### FlatMap
+
+중첩되어 있는 Collection에 람다를 두번 걸어주어 해당 조건에 만족하는 리스트로 뽑아줌
+
++ ### Flatten
+
+중첩되어 있는 Collection을 그냥 풀어서 하나의 리스트로 뽑아줌
+
+***
+
 + 수강한 강의 - 자바 개발자를 위한 코틀린 입문(Java to Kotlin Starter Guide), 최태현 from 인프런
   <https://www.inflearn.com/course/java-to-kotlin/dashboard>
