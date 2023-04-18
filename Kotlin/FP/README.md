@@ -46,7 +46,7 @@ for ((idx, value) in array.withIndex()) {
 
 > + #### 불변 컬렉션 : Collection에 element를 추가, 삭제할 수 없음
 >
->   + ###### Collection을 만들자 마자 Collections.unmodifiableList()  등을 붙여줌
+>   + ###### Collection을 만들자마자 Collections.unmodifiableList()  등을 붙여줌
 >
 > + #### <span style="color:yellow">가변(Mutable)</span> 컬렉션 : Collection에 element를 추가, 삭제할 수 있음
 
@@ -243,7 +243,7 @@ val String.lastChar:Char
 
 #### 함수를 호출하는 새로운 방법임 (ex. downTo, step)
 
-원래는 '변수.함수이름(argument)'로 호출하지만 중위함수의 경우엔 <span style="color:yellow">'변수 함수이름 argument'</span>로 호출함
+원래는 '변수.함수이름(argument)'로 호출하지만 중위함수의 경우엔 <span style="color:yellowgreen">'변수 함수이름 argument'</span>로 호출함
 
 ```kotlin
 //일반함수
@@ -295,6 +295,267 @@ fun createPerson(firstName: String, lastName: String): Person {
 ```
 
 하지만 depth가 깊어지기도 하고 코드가 생각보다 깔끔하지는 않음 (위같은 경우도 그냥 Person 클래스에서 검증하는게 나을듯)
+
+***
+
+## 📖 Java에서의 람다
+
++ ### 이번 챕터에서 함께할 JavaFruit 클래스
+
+```java
+public class JavaFruit {
+    private final String name;
+    private final int price;
+
+    public JavaFruit(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}
+```
+
+```java
+List<JavaFruit> fruits = Arrays.asList(
+        new JavaFruit("사과", 1_000),
+        new JavaFruit("사과", 1_200),
+        new JavaFruit("사과", 1_200),
+        new JavaFruit("사과", 1_500),
+        new JavaFruit("바나나", 3_000),
+        new JavaFruit("바나나", 3_200),
+        new JavaFruit("바나나", 2_500),
+        new JavaFruit("수박", 1_000)
+        );
+```
+
+여기서 사과를 찾을 때, 다음과 같은 함수를 쓸 수 있음
+
+```java
+//사과 찾기
+private List<JavaFruit> findApples(List<JavaFruit> fruits) {
+    List<JavaFruit> apples = new ArrayList<>();
+    for (JavaFruit fruit : fruits) {
+        if (fruit.getName().equals("사과")) {
+            apples.add(fruit);
+        }
+    }
+    return apples;
+}
+```
+
+근데 만약 또 바나나를 찾는다? 그럼 이렇게 만들어야됨
+
+```java
+//바나나 찾기
+private List<JavaFruit> findBananas(List<JavaFruit> fruits) {
+    List<JavaFruit> bananas = new ArrayList<>();
+    for (JavaFruit fruit : fruits) {
+        if (fruit.getName().equals("바나나")) {
+            bananas.add(fruit);
+        }
+    }
+    return bananas;
+}
+```
+
+위에 두 코드는 중복이니까 당연히 다음과 같이 중복을 제거하여 해결가능
+
+```java
+//원하는 과일 이름으로 찾기
+private List<JavaFruit> findFruitsWithName(List<JavaFruit> fruits, String name) {
+    List<JavaFruit> results = new ArrayList<>();
+    for (JavaFruit fruit : fruits) {
+        if(fruit.getName().equals(name)){
+            results.add(fruit);
+        }
+    }
+    return results;
+}
+```
+
+근데 만약 위 같은 경우 외에 더 많은 요구사항이 생기면 어떻게 할까?
+
+단순히 파라미터를 늘리는 것으로는 어림도 없음
+
+따라서 <span style="color:yellow">인터페이스</span>와 <span style="color:yellow">익명클래스</span>를 활용하기로 함
+
+```java
+//인터페이스
+public interface FruitFilter {
+    boolean isSelected(JavaFruit fruit);
+}
+```
+
+```java
+//메소드 생성
+private List<JavaFruit> filterFruits(List<JavaFruit> fruits, FruitFilter fruitFilter) {
+    List<JavaFruit> results = new ArrayList<>();
+    for (JavaFruit fruit : fruits) {
+        if (fruitFilter.isSelected(fruit)) {
+            results.add(fruit);
+        }
+    }
+    return results;
+}
+```
+
+```java
+//익명클래스 활용
+filterFruits(fruits, new FruitFilter(){
+    @Override
+    public boolean isSelected(JavaFruit fruit) {
+        return Arrays.asList("사과", "바나나").contains(fruit.getName())
+                && fruit.getPrice() > 5_000;
+    }
+});
+```
+
+위와 같이 해결할 수는 있지만
+
++ 익명클래스를 활용하는 방법이 복잡함
++ 다양한 Filter가 필요할 수 있음
+
+#### 따라서 JDK8부터 <span style="color:yellow">람다(이름 없는 함수)</span>가 등장함
+
+#### 또한 Predicate, Consumer같은 Filter 인터페이스 등을 많이 만들어 두었음
+
+위의 코드를 다음과 같이 해결함
+
+```java
+//메소드 생성 - Predicate 인터페이스로 대체
+private List<JavaFruit> filterFruits(List<JavaFruit> fruits, Predicate<JavaFruit> fruitFilter) {
+    List<JavaFruit> results = new ArrayList<>();
+    for (JavaFruit fruit : fruits) {
+        if (fruitFilter.test(fruit)) {
+            results.add(fruit);
+        }
+    }
+    return results;
+}
+```
+
+```java
+//익명클래스 활용 - 람다식을 통해 간결해짐
+filterFruits(fruits, fruit -> fruit.getName().equals("사과"));
+```
+
++ ##### <span style="color:yellowgreen">'변수 -> 변수를 이용한 함수'</span>
+
++ ##### <span style="color:yellowgreen">'(변수1, 변수2) -> 변수1과 변수2를 이용한 함수'</span>
+
+이같은 형식으로 람다식을 작성 가능
+
+```java
+ private List<JavaFruit> filterFruits(List<JavaFruit> fruits, Predicate<JavaFruit> fruitFilter) {
+    return fruits.stream()		//Stream
+             .filter(fruitFilter)		//필터
+             .collect(Collectors.toList());		//리스트로 반환
+ }
+```
+
+<span style="color:yellow">Stream</span>을 통해 더욱 더 간결한 병렬처리가 가능해짐
+
+```java
+filterFruits(fruits, JavaFruit::isApple);
+```
+
+<span style="color:yellow">메소드 레퍼런스</span>를 통해 또한번 람다식도 줄일 수 있음
+
+이처럼 Java에서는 메소드 자체를 직접 넘겨주는 것처럼 쓸 수 있는데,
+
+##### Java에서 함수는 변수에 할당되거나 파라미터로 전달할 수 없음을 의미함 (함수를 <span style="color:yellow">2급 시민</span>으로 간주)
+
+***
+
+## 📖 Kotlin에서의 람다
+
+Kotlin에서의 함수는 Java와 근본적으로 다른점이 한가지가 있음
+
+### Kotlin에서는 함수가 그 자체로 값이 될 수 있고, 변수에 할당할 수도, 파라미터로 넘길 수도 있음
+
++ Kotlin에서의 람다 활용
+
+```kotlin
+//람다를 만드는 방법1 - 이름만 빠짐
+//(Fruit)를 받아 Boolean을 반환하는 타입
+val isAppleV1: (Fruit) -> Boolean = fun(fruit: Fruit): Boolean {
+    return fruit.name == "사과"
+}
+```
+
+```kotlin
+//람다를 만드는 방법2 - 중괄호가 화살표 사용하기
+//(Fruit)를 받아 Boolean을 반환하는 타입
+val isAppleV2: (Fruit) -> Boolean = { fruit: Fruit -> fruit.name == "사과" }
+```
+
+```kotlin
+//람다를 호출하는 방법1 - 그냥 소괄호로 호출
+isAppleV1(fruits[0])
+//람다를 호출하는 방법2 - invoke를 사용해 호출
+isAppleV1.invoke(fruits[0])
+```
+
+##### 이 때 각 함수는 타입을 가지는데 <span style="color:yellowgreen">'(타입)을 입력받아 (타입)을 반환하는 타입'</span>이라고 할 수 있음
+
++ Java에서의 Filter를 Kotlin 버전으로 바꾼다면
+
+```kotlin
+private fun filterFruits(
+    fruits: List<Fruit>, filter: (Fruit) -> Boolean
+): List<Fruit> {
+    val results = mutableListOf<Fruit>()
+    for (fruit in fruits) {
+        if (filter(fruit)) {
+            results.add(fruit)
+        }
+    }
+    return results
+}
+```
+
+```kotlin
+    filterFruits(fruits, isAppleV1)
+    filterFruits(fruits, { fruit: Fruit -> fruit.name == "사과" })
+    filterFruits(fruits) { fruit: Fruit -> fruit.name == "사과" }	//마지막 파라미터가 함수인 경우 소괄호 밖에 람다 사용 가능
+    filterFruits(fruits) { fruit -> fruit.name == "사과" }
+    filterFruits(fruits) { it.name == "사과" }
+```
+
+위와 같은 변화를 통해 filter를 호출하는 형태도 간결하게 줄일 수가 있음
+
+##### 이처럼 Kotlin에서는 함수를 <span style="color:yellow">1급 시민</span>으로 간주하기 때문에 함수를 활용한 코드가 간결해질 수 있음
+
+***
+
+## 📖 Closure
+
+```java
+String targetFruitName = "바나나";
+targetFruitName = "수박";
+filterFruits(fruit, (fruit) -> targetFruitName.equals(fruit.getName()));
+```
+
+Java에서 다음과 같은 코드를 사용할 수 없음 (람다식에서 람다식 밖에 있는 변수를 사용하는데에 제약이 걸림, final만 쓸 수 있음)
+
+```kotlin
+var targetFruitName = "바나나"
+targetFruitName = "수박"
+filterFruits(fruits) { it.name == targetFruitName }
+```
+
+#### 하지만 Kotlin에서는 가능함
+
+##### Kotlin에서는 람다가 시작하는 지점에 참조하고 있는 변수들을 <span style="color:yellow">모두 포획</span>하여 그 정보를 가지고 있음
+
+##### 이게 가능해야만 람다를 진정한 1급 시민으로 간주할 수 있음 (해당 데이터 구조를 <span style="color:yellow">Closure</span>이라고 부름)
 
 ***
 
