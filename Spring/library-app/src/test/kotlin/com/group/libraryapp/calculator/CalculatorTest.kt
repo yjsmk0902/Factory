@@ -1,4 +1,4 @@
-package com.group.libraryapp
+package com.group.libraryapp.calculator
 
 import java.lang.Exception
 import kotlin.IllegalStateException
@@ -8,10 +8,10 @@ fun main() {
     calculatorTest.addTest()
     calculatorTest.minusTest()
     calculatorTest.multiplyTest()
-    calculatorTest.divideTest()
+    calculatorTest.divideExceptionTest()
 }
 
-class CalculatorTest{
+class CalculatorTest {
 
     fun addTest() {
 
@@ -62,9 +62,8 @@ class CalculatorTest{
         }
     }
 
+    //Case 1) 0이 아닌 수로 나눌 때
     fun divideTest() {
-
-        //Case 1) 0이 아닌 수로 나눌 때
         //given
         val calculator = Calculator(5)
 
@@ -75,22 +74,22 @@ class CalculatorTest{
         if (calculator.number != 2) {
             throw IllegalStateException()
         }
+    }
 
-        //Case 2) 0인 수로 나눌 때
-        fun divideExceptionTest() {
-            //given
-            val calculator = Calculator(5)
+    //Case 2) 0인 수로 나눌 때
+    fun divideExceptionTest() {
+        //given
+        val calculator = Calculator(5)
 
-            //when
-            try {
-                calculator.divide(0)
-            } catch (e: IllegalStateException) {
-                //테스트 성공!
-                return
-            } catch (e: Exception) {
-                throw IllegalStateException()
-            }
-            throw IllegalStateException("기대하는 예외가 발생하지 않음")
+        //when
+        try {
+            calculator.divide(0)
+        } catch (e: IllegalStateException) {
+            //테스트 성공!
+            return
+        } catch (e: Exception) {
+            throw IllegalStateException()
         }
+        throw IllegalStateException("기대하는 예외가 발생하지 않음")
     }
 }
