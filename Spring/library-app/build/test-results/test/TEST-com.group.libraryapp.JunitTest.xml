@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.group.libraryapp.JunitTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-05-03T03:19:25" hostname="Yangui-MacBookPro.local" time="0.004">
+<testsuite name="com.group.libraryapp.JunitTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-05-04T03:06:47" hostname="Yangui-MacBookPro.local" time="0.003">
   <properties/>
-  <testcase name="test1()" classname="com.group.libraryapp.JunitTest" time="0.003"/>
-  <testcase name="test2()" classname="com.group.libraryapp.JunitTest" time="0.001"/>
+  <testcase name="test1()" classname="com.group.libraryapp.JunitTest" time="0.002"/>
+  <testcase name="test2()" classname="com.group.libraryapp.JunitTest" time="0.0"/>
   <system-out><![CDATA[모든 테스트 시작 전
 각 테스트 시작 전
 테스트 1
