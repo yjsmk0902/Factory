@@ -14,15 +14,31 @@ class UserLoanHistory(
 
     val bookName: String,
 
-    var isReturn: Boolean,
+    var status: UserLoanStatus = UserLoanStatus.LOANED,
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private val id: Long? = null,
 ) {
 
+    companion object {
+        fun fixture(
+            user: User,
+            bookName: String = "Harry Potter",
+            status: UserLoanStatus = UserLoanStatus.LOANED,
+            id: Long? = null
+        ): UserLoanHistory {
+            return UserLoanHistory(
+                user = user,
+                bookName = bookName,
+                status = status,
+                id = id
+            )
+        }
+    }
+
     fun doReturn() {
-        this.isReturn = true
+        this.status = UserLoanStatus.RETURNED
     }
 
 }
