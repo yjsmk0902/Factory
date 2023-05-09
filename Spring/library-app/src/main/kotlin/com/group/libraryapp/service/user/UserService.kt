@@ -8,6 +8,7 @@ import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.BookHistoryResponse
 import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
+import com.group.libraryapp.repository.UserQuerydslRepository
 import fail
 import findByIdOrThrow
 import org.springframework.stereotype.Service
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(
     private val userRepository: UserRepository,
+    private val userQuerydslRepository: UserQuerydslRepository,
 ) {
 
     @Transactional
@@ -39,12 +41,12 @@ class UserService(
     @Transactional
     fun deleteUser(name: String) {
         val user = userRepository.findByName(name) ?: fail()
-        userRepository.delete(user);
+        userRepository.delete(user)
     }
 
     @Transactional(readOnly = true)
     fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
-        return userRepository.findAllWithHistories()
+        return userQuerydslRepository.findAllWithHistories()
             .map(UserLoanHistoryResponse::of)
     }
 

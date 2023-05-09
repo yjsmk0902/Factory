@@ -26,7 +26,7 @@ class BookServiceTest @Autowired constructor(
     private val bookService: BookService,
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val userLoanHistoryRepository: UserLoanHistoryRepository
 ) {
 
     @AfterEach
