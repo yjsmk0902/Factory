@@ -1,15 +1,22 @@
 package com.practice.kotlinpractice.service.security
 
+import com.nimbusds.oauth2.sdk.token.AccessTokenType
 import com.practice.kotlinpractice.domain.member.MemberRepository
 import com.practice.kotlinpractice.dto.JwtDto
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
+import io.jsonwebtoken.security.SecurityException
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
+import java.lang.IllegalArgumentException
 import java.security.Key
-import java.security.spec.KeySpec
 import java.util.Date
 
 @Component
@@ -52,6 +59,54 @@ class JwtProvider (
             refreshToken = refreshToken,
             accessTokenExpiresIn = accessTokenExpiresIn.time
         )
+    }
+
+    fun resolveToken(request: HttpServletRequest): String {
+        val bearerToken = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION)
+
+
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AccessTokenType.BEARER.value)) {
+            return bearerToken.substring(7)
+        }
+        return ""
+    }
+
+    fun validateAccessToken(token: String): Boolean {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
+            return true
+        } catch (e: SecurityException) {
+            println("올바르지 못한 토큰입니다.")
+        } catch (e: MalformedJwtException) {
+            println("올바르지 못한 토큰입니다.")
+        } catch (e: ExpiredJwtException) {
+            println("만료된 토큰입니다.")
+        } catch (e: UnsupportedJwtException) {
+            println("지원되지 않는 토큰입니다.")
+        } catch (e: IllegalArgumentException) {
+            println("잘못된 토큰입니다.")
+        }
+        return true
+    }
+
+    fun findAuthentication(accessToken: String): Authentication {
+        val claims = parseClaims(accessToken)
+
+        val authorities = mutableListOf(claims[AUTHORITIES_KEY] as String)
+            .map{ role -> SimpleGrantedAuthority(role)}
+        val user = User(claims[Claims.SUBJECT] as String, "",authorities)
+
+        return UsernamePasswordAuthenticationToken(user, "", authorities)
+
+    }
+
+    private fun parseClaims(accessToken: String): Claims {
+        return try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).body
+        } catch (e: ExpiredJwtException) {
+            e.claims
+        }
     }
 
 }

@@ -21,6 +21,10 @@ class SecurityConfig (
             .httpBasic{
                 it.disable()
             }
+            .authorizeHttpRequests {
+                it.requestMatchers("/guest").hasRole("USER")
+                it.requestMatchers("/admin").hasRole("ADMIN")
+            }
             .sessionManagement{
                 it.sessionCreationPolicy(SessionCreationPolicy.NEVER)
             }
