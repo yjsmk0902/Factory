@@ -13,7 +13,6 @@ import java.util.*
 
 @Service
 @Transactional
-@Slf4j
 class JwtService(
 
     private val memberRepository: MemberRepository,

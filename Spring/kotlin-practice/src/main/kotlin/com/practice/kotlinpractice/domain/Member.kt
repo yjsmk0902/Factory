@@ -20,26 +20,26 @@ enum class SocialType {
 @Entity
 class Member(
 
-    private val email: String,
-    private var password: String,
-    private val nickname: String,
-    private val imageUrl: String? = null,
-    private val age: Int,
-    private val city: String,
+    val email: String,
+    var password: String? = null,
+    val nickname: String,
+    val imageUrl: String? = null,
+    val age: Int,
+    val city: String,
 
     @Enumerated(STRING)
-    private var role: Role,
+    var role: Role,
 
     @Enumerated(STRING)
-    private val socialType: SocialType? = null,
+    val socialType: SocialType? = null,
 
-    private val socialId: String? = null,
-    private var refreshToken: String? = null,
+    val socialId: String? = null,
+    var refreshToken: String? = null,
 
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private val id: Long? = null
+    val id: Long? = null
 ) {
 
     fun authorizeUser() {
