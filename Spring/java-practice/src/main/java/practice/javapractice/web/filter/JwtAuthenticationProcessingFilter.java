@@ -91,7 +91,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         if (refreshToken == null) {
             checkAccessTokenAndAuthentication(request, response, filterChain);
         }
-
     }
 
     //RefreshToken으로 유저 정보찾기 & Access/RefreshToken 재발급

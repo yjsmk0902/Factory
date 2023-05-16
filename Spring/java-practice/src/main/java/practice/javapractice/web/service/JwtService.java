@@ -41,7 +41,7 @@ public class JwtService {
 
     //JWT의 Subject와 Claim으로 email 사용 => Claim의 이름을 "email"로 설정
     private static final String EMAIL_CLAIM = "email";
-    private static final String BEARER = "Bearer";
+    private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
 

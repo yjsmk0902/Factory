@@ -1,6 +1,7 @@
 package practice.javapractice.web.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +13,15 @@ import practice.javapractice.domain.repository.MemberRepository;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     //자체 회원가입 시 사용하는 회원가입 API
-
     public void signUp(MemberSignUpDto memberSignUpDto) throws Exception {
+
         if (memberRepository.findByEmail(memberSignUpDto.getEmail()).isPresent()) {
             throw new Exception("이미 존재하는 이메일입니다.");
         }
@@ -39,5 +41,6 @@ public class MemberService {
 
         member.passwordEncode(passwordEncoder);
         memberRepository.save(member);  //DB에 저장
+
     }
 }

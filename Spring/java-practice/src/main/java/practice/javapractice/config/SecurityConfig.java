@@ -2,7 +2,6 @@ package practice.javapractice.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import practice.javapractice.domain.repository.MemberRepository;
@@ -28,7 +25,6 @@ import practice.javapractice.web.service.CustomOAuth2UserService;
 import practice.javapractice.web.service.JwtService;
 import practice.javapractice.web.service.LoginService;
 
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity  //Spring Secuirty 관련 클래스들 import -> Spring Secuiry 기능을 사용하기 위해 붙여줘야함
@@ -61,7 +57,7 @@ public class SecurityConfig {
                 //URL별 권한 관리 옵션
                 .authorizeHttpRequests()    //인증/인가 설정시 HttpServletRequest를 이용
                 //인증 절차 없이 접근할 URL 설정
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**", "/sign-up").permitAll()
                 //나머지는 다 인증 필요
                 .anyRequest().authenticated()
                 .and()
@@ -73,7 +69,7 @@ public class SecurityConfig {
                 .userInfoEndpoint().userService(customOAuth2UserService);   //커스텀한 userService 사용
 
         //필터 동작 설정
-        //Default => Spring Seuciry Filter 순서가 LogoutFilter 이후에 로그인 필터 동작
+        //Default => Spring Security Filter 순서가 LogoutFilter 이후에 로그인 필터 동작
         //따라서, LogoutFilter 이후에 우리가 만든 필터가 동작하도록 설정
         //LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
         http.addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class);
