@@ -1,11 +1,10 @@
-package com.practice.kotlinpractice.security.jwt.service
+package com.practice.kotlinpractice.service.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.practice.kotlinpractice.domain.MemberRepository
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,15 +17,15 @@ class JwtService(
     private val memberRepository: MemberRepository,
 
     @Value("\${jwt.secretKey}")
-    private val secretKey: String,
+    val secretKey: String,
     @Value("\${jwt.access.expiration}")
-    private val accessTokenExpirationPeriod: Long,
+    val accessTokenExpirationPeriod: Long,
     @Value("\${jwt.refresh.expiration}")
-    private val refreshTokenExpirationPeriod: Long,
+    val refreshTokenExpirationPeriod: Long,
     @Value("\${jwt.access.header}")
-    private val accessHeader: String,
+    val accessHeader: String,
     @Value("\${jwt.refresh.header}")
-    private val refreshHeader: String
+    val refreshHeader: String
 ) {
     companion object {
         private const val ACCESS_TOKEN_SUBJECT = "AccessToken"
@@ -52,11 +51,15 @@ class JwtService(
             .sign(Algorithm.HMAC512(secretKey))
     }
 
-    fun sendAccessAndRefreshToken(response: HttpServletResponse, accessToken: String, refreshToken: String) {
+    fun sendAccessAndRefreshToken(
+        response: HttpServletResponse,
+        accessToken: String?,
+        refreshToken: String?
+    ) {
         response.status = HttpServletResponse.SC_OK
 
-        setAccessTokenHeader(response, accessToken)
-        setRefreshTokenHeader(response, refreshToken)
+        accessToken?.let { setAccessTokenHeader(response, it) }
+        refreshToken?.let { setRefreshTokenHeader(response, it) }
     }
 
     fun extractRefreshToken(request: HttpServletRequest): String? {

@@ -1,7 +1,7 @@
 package com.practice.kotlinpractice.controller
 
 import com.practice.kotlinpractice.dto.MemberSignUpDto
-import com.practice.kotlinpractice.service.MemberService
+import com.practice.kotlinpractice.service.member.MemberService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

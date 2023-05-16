@@ -1,8 +1,8 @@
-package com.practice.kotlinpractice.security.jwt.filter
+package com.practice.kotlinpractice.filter.jwt
 
 import com.practice.kotlinpractice.domain.Member
 import com.practice.kotlinpractice.domain.MemberRepository
-import com.practice.kotlinpractice.security.jwt.service.JwtService
+import com.practice.kotlinpractice.service.jwt.JwtService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -41,13 +41,13 @@ class JwtAuthenticationProcessingFilter(
             ?.takeIf { jwtService.isTokenValid(it) }
 
         refreshToken?.let {
-            checkRefreshTokenAndReIssueAcceessToken(response, it)
+            checkRefreshTokenAndReIssueAccessToken(response, it)
         } ?: checkAccessTokenAndAuthentication(request, response, filterChain)
 
 
     }
 
-    private fun checkRefreshTokenAndReIssueAcceessToken(
+    private fun checkRefreshTokenAndReIssueAccessToken(
         response: HttpServletResponse,
         refreshToken: String
     ) {

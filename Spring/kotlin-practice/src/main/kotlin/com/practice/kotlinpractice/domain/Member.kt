@@ -22,10 +22,10 @@ class Member(
 
     val email: String,
     var password: String? = null,
-    val nickname: String,
+    val nickname: String?,
     val imageUrl: String? = null,
-    val age: Int,
-    val city: String,
+    val age: Int? = null,
+    val city: String? = null,
 
     @Enumerated(STRING)
     var role: Role,
