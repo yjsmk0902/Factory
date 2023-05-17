@@ -23,7 +23,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final MemberRepository memberRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("OAuth Login Success!");
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();

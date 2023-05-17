@@ -19,13 +19,13 @@ import java.util.Map;
 
 public class CustomJsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String DEFAULT_LOGIN_REQUEST_URL = "/login";       //"/login"으로 오는 요청 처리
+    private static final String DEFAULT_LOGIN_REQUEST_URL = "/auth/login";       //"/login"으로 오는 요청 처리
     private static final String HTTP_METHOD = "POST";                       //로그인 HTTP 메소드는 POST
     private static final String CONTENT_TYPE = "application/json";           //JSON 타입의 데이터로 오는 요청만 처리
     private static final String USERNAME_KEY = "email";                     //회원 로그인 시 이메일 요청 JSON Key = "email"
     private static final String PASSWORD_KEY = "password";                  //회원 로그인 시 비밀번호 요청 JSON Key = "password"
     private static final AntPathRequestMatcher DEFAULT_LOGIN_PATH_REQUEST_MATCHER =
-            new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);  //"/login" + POST 요청 매칭
+            new AntPathRequestMatcher(DEFAULT_LOGIN_REQUEST_URL, HTTP_METHOD);  //"/auth/login" + POST 요청 매칭
 
     private ObjectMapper objectMapper;
 

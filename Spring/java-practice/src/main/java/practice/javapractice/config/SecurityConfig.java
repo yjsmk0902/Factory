@@ -50,6 +50,7 @@ public class SecurityConfig {
                 //h2-console에 접근하기 위해 사용 안함
                 .headers().frameOptions().disable()
                 .and()
+
                 //세션을 사용하지 않음
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -57,7 +58,7 @@ public class SecurityConfig {
                 //URL별 권한 관리 옵션
                 .authorizeHttpRequests()    //인증/인가 설정시 HttpServletRequest를 이용
                 //인증 절차 없이 접근할 URL 설정
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**", "/sign-up").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**", "/auth/**").permitAll()
                 //나머지는 다 인증 필요
                 .anyRequest().authenticated()
                 .and()
@@ -97,7 +98,7 @@ public class SecurityConfig {
     //커스텀 JSON 필터 빈 등록을 위한 Success/Failure 핸들러 빈 등록
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, memberRepository);
+        return new LoginSuccessHandler(jwtService, memberRepository, objectMapper);
     }
 
     @Bean

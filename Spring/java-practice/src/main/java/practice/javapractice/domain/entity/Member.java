@@ -17,6 +17,7 @@ import javax.persistence.*;
 //  user 키워드가 예약어로 지정되어 있는 경우가 있음 (엔티티 이름을 user로 설정할 경우)
 //  엔티티 매핑시 오류가 날 수도 있어서 걍 맘편하게 Member 사용
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,6 +25,7 @@ public class Member {
 
     private String email;
     private String password;
+
     private String username;
     private String name;
     private String imageProfile;
@@ -61,6 +63,4 @@ public class Member {
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
     }
-
-
 }

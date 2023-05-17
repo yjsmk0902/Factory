@@ -2,15 +2,19 @@ package practice.javapractice.web.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import practice.javapractice.domain.dto.ResponseDto;
 import practice.javapractice.domain.repository.MemberRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
