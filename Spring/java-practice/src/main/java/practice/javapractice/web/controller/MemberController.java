@@ -27,7 +27,7 @@ public class MemberController {
         memberService.signUp(memberSignUpDto);
         return ResponseEntity.ok().body(
                 new ResponseDto(
-                        HttpStatus.OK,
+                        HttpStatus.OK.value(),
                         true,
                         "Sign Up Success"
                 )

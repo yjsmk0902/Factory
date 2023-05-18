@@ -45,12 +45,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         //로그인시 토큰을 각각 바디에 넣어서 전달
         TokenDto token = new TokenDto(accessToken, refreshToken);
         ResponseDto responseDto = new ResponseDto(
-                HttpStatus.OK,
+                HttpStatus.OK.value(),
                 true,
                 "Login Success",
                 token
         );
         try {
+            response.setContentType("application/json");
             response.getWriter().write(mapper.writeValueAsString(responseDto));
         } catch (IOException e) {
             throw new RuntimeException(e);
