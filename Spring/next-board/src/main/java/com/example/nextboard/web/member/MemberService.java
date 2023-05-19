@@ -1,5 +1,6 @@
 package com.example.nextboard.web.member;
 
+import com.example.nextboard.domain.member.dto.response.MemberResponseDto;
 import com.example.nextboard.domain.member.entity.Member;
 import com.example.nextboard.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +14,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    //회원 생성 로직
-    @Transactional
-    public void createMember(Member member) {
-        memberRepository.save(member);
+    //회원 뷰 로직
+    public MemberResponseDto viewMember(Long memberId) {
+        return MemberResponseDto.toDto(findMember(memberId));
     }
 
     //회원 조회 로직(id)
