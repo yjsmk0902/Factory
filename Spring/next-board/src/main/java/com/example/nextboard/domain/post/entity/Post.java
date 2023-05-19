@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +43,16 @@ public class Post {
     private Category category;
     private String date;
 
-
+    public void modifyPost(
+            String title,
+            String content,
+            Category category
+    ) {
+        this.title = title;
+        this.content = content;
+        this.viewCount = 0;
+        this.recommend = 0;
+        this.category = category;
+        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd(E) a HH:mm"));
+    }
 }
