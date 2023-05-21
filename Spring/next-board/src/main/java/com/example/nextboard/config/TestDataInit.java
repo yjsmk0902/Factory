@@ -12,6 +12,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class TestDataInit {
@@ -55,16 +58,20 @@ public class TestDataInit {
         memberRepository.save(member2);
         memberRepository.save(member3);
 
-        Post post1 = Post.builder()
-                .member(member1)
-                .title("게시판 제목1")
-                .content("게시판 내용1")
-                .viewCount(40)
-                .recommend(2)
-                .category(Category.NOTICE)
-                .date("2023-05-19 (금) 오후 13:44")
-                .build();
+        List<Post> posts = new ArrayList<>();
 
-        postRepository.save(post1);
+        for (int i = 0; i < 10; i++) {
+            Post post = Post.builder()
+                    .member(member1)
+                    .title("게시글 제목" + i)
+                    .content("게시글 내용" + i)
+                    .viewCount(40 + i)
+                    .recommend(5 + i)
+                    .category(Category.NOTICE)
+                    .date("2023-05-20 (토) 오후 20:0" + (i + 6))
+                    .build();
+            posts.add(post);
+        }
+        postRepository.saveAll(posts);
     }
 }
