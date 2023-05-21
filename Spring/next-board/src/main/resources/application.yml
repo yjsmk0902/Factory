@@ -3,7 +3,7 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 20
+        default-page-size: 5
         max-page-size: 1000
 
   mvc:
