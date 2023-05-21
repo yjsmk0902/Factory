@@ -24,19 +24,19 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    //게시글 생성 로직
+    //게시글 생성 로직 - Test Complete
     @Transactional
     public void createPost(@RequestBody CreatePostRequestDto createPostRequestDto, Member member) {
         postRepository.save(createPostRequestDto.toEntity(member));
     }
 
-    //게시글 삭제 로직
+    //게시글 삭제 로직 - Test Complete
     @Transactional
     public void deletePost(Long postId) {
         postRepository.delete(findPost(postId));
     }
 
-    //게시글 수정 로직
+    //게시글 수정 로직 - Test Complete
     @Transactional
     public void modifyPost(@RequestBody ModifyPostRequestDto modifyPostRequestDto, Long postId) {
         findPost(postId).modifyPost(
@@ -46,31 +46,31 @@ public class PostService {
         );
     }
 
-    //게시글 검색 로직 (제목으로 검색)
-    public Page<CompactPostResponseDto> getSearchTitle(String keyword, Pageable pageable) {
+    //게시글 검색 로직 (페이징) (제목으로 검색)
+    public Page<CompactPostResponseDto> getSearchTitlePage(String keyword, Pageable pageable) {
         return postRepository.findByTitleContaining(keyword, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //게시글 검색 로직 (작성자로 검색)
-    public Page<CompactPostResponseDto> getSearchMember(String keyword, Pageable pageable) {
+    //게시글 검색 로직 (페이징) (작성자로 검색)
+    public Page<CompactPostResponseDto> getSearchMemberPage(String keyword, Pageable pageable) {
         return postRepository.findByMember_NameContaining(keyword, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //내가 쓴 게시글 뷰 로직
-    public Page<CompactPostResponseDto> getMyPost(Member member, Pageable pageable) {
+    //내가 쓴 게시글 뷰 로직 (페이징)
+    public Page<CompactPostResponseDto> getMyPostPage(Member member, Pageable pageable) {
         return postRepository.findByMemberOrderByIdDesc(member, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //카테고리별 게시글 뷰 로직
-    public Page<CompactPostResponseDto> getCategoryPost(Category category, Pageable pageable) {
+    //카테고리별 게시글 뷰 로직 (페이징)
+    public Page<CompactPostResponseDto> getCategoryPostPage(Category category, Pageable pageable) {
         return postRepository.findByCategoryOrderByIdDesc(category, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //게시글 상세 뷰 로직
+    //게시글 상세 뷰 로직 - Test Complete
     public PostResponseDto viewPost(Long postId) {
         return PostResponseDto.toDto(findPost(postId));
     }
