@@ -1,6 +1,5 @@
 package com.example.nextboard.web.post;
 
-import com.example.nextboard.domain.member.repository.MemberRepository;
 import com.example.nextboard.domain.post.dto.request.CreatePostRequestDto;
 import com.example.nextboard.domain.member.entity.Member;
 import com.example.nextboard.domain.post.dto.request.ModifyPostRequestDto;
@@ -10,6 +9,7 @@ import com.example.nextboard.domain.post.entity.Category;
 import com.example.nextboard.domain.post.entity.Post;
 import com.example.nextboard.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
@@ -46,25 +47,25 @@ public class PostService {
         );
     }
 
-    //게시글 검색 로직 (페이징) (제목으로 검색)
+    //게시글 검색 로직 (페이징) (제목으로 검색) - Test Complete
     public Page<CompactPostResponseDto> getSearchTitlePage(String keyword, Pageable pageable) {
         return postRepository.findByTitleContaining(keyword, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //게시글 검색 로직 (페이징) (작성자로 검색)
+    //게시글 검색 로직 (페이징) (작성자로 검색) - Test Complete
     public Page<CompactPostResponseDto> getSearchMemberPage(String keyword, Pageable pageable) {
         return postRepository.findByMember_NameContaining(keyword, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //내가 쓴 게시글 뷰 로직 (페이징)
+    //내가 쓴 게시글 뷰 로직 (페이징) - Test Complete
     public Page<CompactPostResponseDto> getMyPostPage(Member member, Pageable pageable) {
         return postRepository.findByMemberOrderByIdDesc(member, pageable)
                 .map(CompactPostResponseDto::toDto);
     }
 
-    //카테고리별 게시글 뷰 로직 (페이징)
+    //카테고리별 게시글 뷰 로직 (페이징) - Test Complete
     public Page<CompactPostResponseDto> getCategoryPostPage(Category category, Pageable pageable) {
         return postRepository.findByCategoryOrderByIdDesc(category, pageable)
                 .map(CompactPostResponseDto::toDto);
@@ -75,6 +76,7 @@ public class PostService {
         return PostResponseDto.toDto(findPost(postId));
     }
 
+    //Id로 게시글 찾기(기본 기능) - Test Complete
     public Post findPost(Long postId) {
         return postRepository.findById(postId).orElseThrow(RuntimeException::new);     //예외 처리 필요
     }

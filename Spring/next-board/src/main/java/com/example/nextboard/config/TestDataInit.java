@@ -1,6 +1,5 @@
 package com.example.nextboard.config;
 
-import com.example.nextboard.domain.comment.repository.CommentRepository;
 import com.example.nextboard.domain.member.entity.Member;
 import com.example.nextboard.domain.member.repository.MemberRepository;
 import com.example.nextboard.domain.post.entity.Category;
@@ -21,7 +20,6 @@ public class TestDataInit {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
@@ -60,7 +58,7 @@ public class TestDataInit {
 
         List<Post> posts = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             Post post = Post.builder()
                     .member(member1)
                     .title("게시글 제목" + i)
@@ -72,6 +70,20 @@ public class TestDataInit {
                     .build();
             posts.add(post);
         }
+
         postRepository.saveAll(posts);
+
+        Post post1 = Post.builder()
+                .member(member2)
+                .title("게시글 제목1 - 사용자2")
+                .content("게시글 내용1")
+                .viewCount(2)
+                .recommend(0)
+                .category(Category.QUESTION)
+                .date("2023-05-22 (월) 오전 10:17")
+                .build();
+
+        postRepository.save(post1);
+
     }
 }
