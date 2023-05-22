@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
