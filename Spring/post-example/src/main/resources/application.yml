@@ -17,6 +17,10 @@ spring:
     username: Luke
     password: qwerty_1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #테스트시
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true   #???? ?? ??? ???? ??
     hibernate:
@@ -26,9 +30,10 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
-  h2:
-    console:
-      enabled: false
+  #테스트시 활성화
+#  h2:
+#    console:
+#      enabled: true
   sql:
     init:
       mode: always
