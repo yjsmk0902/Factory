@@ -30,6 +30,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
+
   #테스트시 활성화
 #  h2:
 #    console:
@@ -37,6 +38,12 @@ spring:
   sql:
     init:
       mode: always
+
+  #Spring Data Rest Setting
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: annotated
 
 ---
 
