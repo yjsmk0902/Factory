@@ -30,7 +30,7 @@ public class DataRestTest {
 
     @Test
     @DisplayName("[API] 게시글 리스트 조회")
-    void getArticleListApiTest() throws Exception {
+    void get_ArticleList_ApiTest() throws Exception {
         //given
 
         //when
