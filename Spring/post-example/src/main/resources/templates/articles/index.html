@@ -6,10 +6,7 @@
 </head>
 <body>
 
-<header>
-
-    <hr>
-</header>
+<header th:replace="~{header::header}"></header>
 
 <main>
     <form>
@@ -30,32 +27,32 @@
 
     <table>
         <thead>
-            <tr>
-                <th>제목</th>
-                <th>해시태그</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
+        <tr>
+            <th>제목</th>
+            <th>해시태그</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>첫글</td>
-                <td>#java</td>
-                <td>Luke</td>
-                <td>2023-05-29</td>
-            </tr>
-            <tr>
-                <td>두번째글</td>
-                <td>#java</td>
-                <td>Luke</td>
-                <td>2023-05-29</td>
-            </tr>
-            <tr>
-                <td>세번째글</td>
-                <td>#java</td>
-                <td>Luke</td>
-                <td>2023-05-29</td>
-            </tr>
+        <tr>
+            <td>첫글</td>
+            <td>#java</td>
+            <td>Luke</td>
+            <td>2023-05-29</td>
+        </tr>
+        <tr>
+            <td>두번째글</td>
+            <td>#java</td>
+            <td>Luke</td>
+            <td>2023-05-29</td>
+        </tr>
+        <tr>
+            <td>세번째글</td>
+            <td>#java</td>
+            <td>Luke</td>
+            <td>2023-05-29</td>
+        </tr>
         </tbody>
     </table>
     <nav>
@@ -72,10 +69,7 @@
     </nav>
 </main>
 
-<footer>
-    <hr>
-
-</footer>
+<footer th:replace="~{footer::footer}"></footer>
 
 </body>
 </html>
