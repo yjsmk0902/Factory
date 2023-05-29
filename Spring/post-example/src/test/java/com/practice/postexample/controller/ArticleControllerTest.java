@@ -39,7 +39,6 @@ class ArticleControllerTest {
         //then
     }
 
-    @Disabled("구현중")
     @Test
     @DisplayName("[View] - [GET] 게시글 상세 페이지")
     void get_ArticleView_ApiTest() throws Exception {
