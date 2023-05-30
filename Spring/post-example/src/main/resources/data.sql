@@ -1,3 +1,7 @@
+/*테스트 계정*/
+/*TODO: 노출된 비밀번호 세팅 - 개선방법 필요*/
+insert into user_account (user_id, user_password, nickname, email, memo, created_at, created_by, modified_at, modified_by) values ('luke', 'asdf1234', 'Luke', 'luke@mail.com', 'emfefefkemkefk', now(), 'luke', now(), 'luke');
+
 /*--100개의 게시글*/
 insert into article (title, content, hashtag, created_by, modified_by, created_at, modified_at) values ('Cras in purus eu magna vulputate luctus.', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', null, 'Sheppard', 'Domingo', '2023-04-10 01:55:56', '2022-10-17 06:09:15');
 insert into article (title, content, hashtag, created_by, modified_by, created_at, modified_at) values ('Aliquam erat volutpat.', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.', 'Pink', 'Susana', 'Aggie', '2023-05-16 23:06:16', '2022-08-16 14:30:47');

@@ -84,4 +84,19 @@ public class DataRestTest {
         //then
     }
 
+    @Test
+    @DisplayName("")
+    void disabledUserAccountDataRest_ApiTest() throws Exception {
+        //given
+
+        //when
+        mvc.perform(get("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(post("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(put("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(patch("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(delete("/api/userAccounts")).andExpect(status().isNotFound());
+        mvc.perform(head("/api/userAccounts")).andExpect(status().isNotFound());
+
+        //then
+    }
 }
