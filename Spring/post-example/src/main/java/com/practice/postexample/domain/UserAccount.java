@@ -3,7 +3,9 @@ package com.practice.postexample.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -16,7 +18,7 @@ import java.util.Objects;
 }
 )
 @Entity
-public class UserAccount extends AuditingField{
+public class UserAccount extends AuditingField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,16 +43,23 @@ public class UserAccount extends AuditingField{
     @Setter
     private String memo;
 
-    public UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private final Set<Article> articles = new LinkedHashSet<>();
+
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
+
+    @Builder
+    private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
-    }
-
-    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo) {
-        return new UserAccount(userId, userPassword, email, nickname, memo);
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.Set;
         @Index(columnList = "createdBy")
 })
 @Entity
-public class Article extends AuditingField{
+public class Article extends AuditingField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,20 +34,21 @@ public class Article extends AuditingField{
     @Setter
     private String hashtag;     // 해시태그
 
+    @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
 
-    @OrderBy("id")
+    @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
-    private Article(String title, String content, String hashtag) {
+    @Builder
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
-    }
-
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
     }
 
     @Override

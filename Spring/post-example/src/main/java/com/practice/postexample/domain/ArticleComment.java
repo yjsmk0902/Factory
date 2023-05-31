@@ -14,7 +14,7 @@ import java.util.Objects;
         @Index(columnList = "createdBy")
 })
 @Entity
-public class ArticleComment extends AuditingField{
+public class ArticleComment extends AuditingField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +25,17 @@ public class ArticleComment extends AuditingField{
     private Article article;    // 게시글 (ID)
 
     @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
+
+    @Setter
     @Column(nullable = false, length = 500)
     private String content;     // 본문
 
-
-    private ArticleComment(Article article, String content) {
+    @Builder
+    private ArticleComment(Article article, UserAccount userAccount, String content) {
         this.article = article;
         this.content = content;
-    }
-
-    public static ArticleComment of(Article article, String content) {
-        return new ArticleComment(article, content);
     }
 
     @Override
