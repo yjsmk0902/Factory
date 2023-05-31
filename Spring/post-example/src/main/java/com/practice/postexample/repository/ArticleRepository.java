@@ -4,6 +4,8 @@ import com.practice.postexample.domain.Article;
 import com.practice.postexample.domain.QArticle;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -16,6 +18,8 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>,     //엔티티 안에 모든 필드에 대한 기본 검색기능 추가 (Exact Match)
         QuerydslBinderCustomizer<QArticle>      //QueryDSL 을 입맛대로 커스타마이징 할 수 있게 해줌
 {
+
+    Page<Article> findByTitle(String title, Pageable pageable);
 
     /**
      * Customize the {@link QuerydslBindings} for the given root.
