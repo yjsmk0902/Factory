@@ -1,4 +1,4 @@
-package com.practice.postexample.dto;
+package com.practice.postexample.dto.userAccount;
 
 import com.practice.postexample.domain.UserAccount;
 
