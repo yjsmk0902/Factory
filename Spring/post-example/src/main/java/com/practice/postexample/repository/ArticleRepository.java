@@ -19,7 +19,12 @@ public interface ArticleRepository extends
         QuerydslBinderCustomizer<QArticle>      //QueryDSL 을 입맛대로 커스타마이징 할 수 있게 해줌
 {
 
-    Page<Article> findByTitle(String title, Pageable pageable);
+    Page<Article> findByTitleContaining(String title, Pageable pageable);
+    Page<Article> findByContentContaining(String content, Pageable pageable);
+    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+    Page<Article> findByHashtag(String hashtag, Pageable pageable);
+
 
     /**
      * Customize the {@link QuerydslBindings} for the given root.
