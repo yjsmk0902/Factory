@@ -4,12 +4,15 @@ import com.practice.postexample.domain.Article;
 import com.practice.postexample.domain.ArticleComment;
 import com.practice.postexample.domain.UserAccount;
 import com.practice.postexample.domain.type.SearchType;
-import com.practice.postexample.dto.ArticleCommentDto;
-import com.practice.postexample.dto.ArticleDto;
-import com.practice.postexample.dto.UserAccountDto;
+import com.practice.postexample.dto.article.ArticleWithArticleCommentsDto;
+import com.practice.postexample.dto.articleComment.ArticleCommentDto;
+import com.practice.postexample.dto.article.ArticleDto;
+import com.practice.postexample.dto.userAccount.UserAccountDto;
 import com.practice.postexample.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,14 +20,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 
+@TestMethodOrder(value = MethodOrderer.DisplayName.class)
 @DisplayName("[Service] - 게시글")
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceTest {
@@ -36,16 +40,37 @@ class ArticleServiceTest {
     private ArticleRepository articleRepository;
 
     @Test
-    @DisplayName("[Service] - 게시글 검색으로 조회 :Success" +
-            "(Param: SearchType, String)" +
+    @DisplayName("[Service] - 게시글 검색으로 조회 " +
+            "(Param: SearchType, String, Page)" +
             "(Return: List<ArticleDto>)")
     void searchArticlesTest() {
         //given
+        SearchType searchType = SearchType.TITLE;
+        String keyword = "title";
+        Pageable pageable = Pageable.ofSize(20);
+        given(articleRepository.findByTitleContaining(keyword, pageable)).willReturn(Page.empty());
+
+        //when
+        Page<ArticleDto> articles = sut.searchArticles(searchType, keyword, pageable);   //제목, 본문, ID, 닉네임, 해시태그
+
+        //then
+        assertThat(articles).isEmpty();
+        then(articleRepository).should().findByTitleContaining(keyword, pageable);
+    }
+
+    @Test
+    @DisplayName("[Service] - 게시글 검색으로 조회 : 검색어가 없는 경우" +
+            "(Param: SearchType, String)" +
+            "(Return: List<ArticleDto>)")
+    void searchArticles_NoKeywordTest() {
+        //given
+        SearchType searchType = SearchType.TITLE;
+        String keyword = "";
         Pageable pageable = Pageable.ofSize(20);
         given(articleRepository.findAll(pageable)).willReturn(Page.empty());
 
         //when
-        Page<ArticleDto> articles = sut.searchArticles(SearchType.TITLE, "search keyword");   //제목, 본문, ID, 닉네임, 해시태그
+        Page<ArticleDto> articles = sut.searchArticles(searchType, keyword, pageable);   //제목, 본문, ID, 닉네임, 해시태그
 
         //then
         assertThat(articles).isEmpty();
@@ -53,37 +78,17 @@ class ArticleServiceTest {
     }
 
     @Test
-    @DisplayName("[Service] - 검색어로 게시글 검색 :Success" +
-            "(Param: Long)" +
-            "(Return: ArticleDto)")
-    void searchArticleWithTitleTest() {
-        //given
-        SearchType searchType = SearchType.TITLE;
-        String searchKeyword = "title";
-        Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitle(searchKeyword, pageable)).willReturn(Page.empty());
-
-        //when
-        Page<ArticleDto> articles = sut.searchArticles(searchType, searchKeyword, pageable);
-
-        //then
-        assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitle(searchKeyword, pageable);
-
-    }
-
-    @Test
     @DisplayName("[Service] - 단일 게시글 ID로 조회 " +
             "(Param: Long)" +
-            "(Return: ArticleResponseDto)")
-    void searchArticleTest() {
+            "(Return: ArticleWithArticleCommentsDto)")
+    void getArticleTest() {
         //given
         Long articleId = 1L;
         Article article = createArticle();
         given(articleRepository.findById(articleId)).willReturn(Optional.of(article));
 
         //when
-        ArticleDto result = sut.getArticle(articleId);
+        ArticleWithArticleCommentsDto result = sut.getArticle(articleId);
 
         //then
         assertThat(result)
@@ -94,8 +99,27 @@ class ArticleServiceTest {
     }
 
     @Test
+    @DisplayName("[Service] - 단일 게시글 ID로 조회 : 없는 게시글 조회 시 예외 던짐 " +
+            "(Param: Long)" +
+            "(Return: ArticleWithArticleCommentsDto)")
+    void getArticle_NoArticleTest() {
+        //given
+        Long articleId = 0L;
+        given(articleRepository.findById(articleId)).willReturn(Optional.empty());
+
+        //when
+        Throwable result = catchThrowable(() -> sut.getArticle(articleId));
+
+        //then
+        assertThat(result)
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("게시글이 없습니다.");
+        then(articleRepository).should().findById(articleId);
+    }
+
+    @Test
     @DisplayName("[Service] - 게시글 생성 " +
-            "(Param: ArticleCreateRequestDto)" +
+            "(Param: ArticleDto)" +
             "(Return: void)")
     void createArticleTest() {
         //given
@@ -111,7 +135,7 @@ class ArticleServiceTest {
 
     @Test
     @DisplayName("[Service] - 게시글 수정 " +
-            "(Param: Long, ArticleUpdateRequestDto)" +
+            "(Param: ArticleDto)" +
             "(Return: void)")
     void updateArticleTest() {
         //given
@@ -127,6 +151,22 @@ class ArticleServiceTest {
                 .hasFieldOrPropertyWithValue("title", request.title())
                 .hasFieldOrPropertyWithValue("content", request.content())
                 .hasFieldOrPropertyWithValue("hashtag", request.hashtag());
+        then(articleRepository).should().getReferenceById(request.id());
+    }
+
+    @Test
+    @DisplayName("[Service] - 게시글 수정 : 없는 게시글 수정 시도시 경고 로그 찍기 " +
+            "(Param: ArticleDto)" +
+            "(Return: void)")
+    void updateArticle_NoArticleTest() {
+        //given
+        ArticleDto request = createArticleDto("새 타이틀", "새 내용", "#새 해시태그");
+        given(articleRepository.getReferenceById(request.id())).willThrow(EntityNotFoundException.class);
+
+        //when
+        sut.updateArticle(request);
+
+        //then
         then(articleRepository).should().getReferenceById(request.id());
     }
 
@@ -212,6 +252,7 @@ class ArticleServiceTest {
 
     private Article createArticle() {
         return Article.builder()
+                .userAccount(createUserAccount())
                 .title("title")
                 .content("content")
                 .hashtag("hashtag")
