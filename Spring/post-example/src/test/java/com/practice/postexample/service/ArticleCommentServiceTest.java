@@ -3,9 +3,9 @@ package com.practice.postexample.service;
 import com.practice.postexample.domain.Article;
 import com.practice.postexample.domain.ArticleComment;
 import com.practice.postexample.domain.UserAccount;
-import com.practice.postexample.dto.ArticleCommentDto;
-import com.practice.postexample.dto.ArticleDto;
-import com.practice.postexample.dto.UserAccountDto;
+import com.practice.postexample.dto.articleComment.ArticleCommentDto;
+import com.practice.postexample.dto.article.ArticleDto;
+import com.practice.postexample.dto.userAccount.UserAccountDto;
 import com.practice.postexample.repository.ArticleCommentRepository;
 import com.practice.postexample.repository.ArticleRepository;
 

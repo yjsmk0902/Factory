@@ -1,7 +1,7 @@
 package com.practice.postexample.service;
 
 import com.practice.postexample.domain.ArticleComment;
-import com.practice.postexample.dto.ArticleCommentDto;
+import com.practice.postexample.dto.articleComment.ArticleCommentDto;
 import com.practice.postexample.repository.ArticleCommentRepository;
 import com.practice.postexample.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
