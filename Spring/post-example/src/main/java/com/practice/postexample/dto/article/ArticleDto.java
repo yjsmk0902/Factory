@@ -1,34 +1,38 @@
-package com.practice.postexample.dto;
+package com.practice.postexample.dto.article;
 
-import com.practice.postexample.domain.ArticleComment;
+import com.practice.postexample.domain.Article;
+import com.practice.postexample.dto.userAccount.UserAccountDto;
 
 import java.time.LocalDateTime;
 
-public record ArticleCommentDto(
+public record ArticleDto(
         Long id,
-        ArticleDto articleDto,
         UserAccountDto userAccountDto,
+        String title,
         String content,
+        String hashtag,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-    public static ArticleCommentDto of(
+    public static ArticleDto of(
             Long id,
-            ArticleDto articleDto,
             UserAccountDto userAccountDto,
+            String title,
             String content,
+            String hashtag,
             LocalDateTime createdAt,
             String createdBy,
             LocalDateTime modifiedAt,
             String modifiedBy
     ) {
-        return new ArticleCommentDto(
+        return new ArticleDto(
                 id,
-                articleDto,
                 userAccountDto,
+                title,
                 content,
+                hashtag,
                 createdAt,
                 createdBy,
                 modifiedAt,
@@ -36,12 +40,13 @@ public record ArticleCommentDto(
         );
     }
 
-    public static ArticleCommentDto from(ArticleComment entity) {
-        return new ArticleCommentDto(
+    public static ArticleDto from(Article entity) {
+        return new ArticleDto(
                 entity.getId(),
-                ArticleDto.from(entity.getArticle()),
                 UserAccountDto.from(entity.getUserAccount()),
+                entity.getTitle(),
                 entity.getContent(),
+                entity.getHashtag(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
@@ -49,11 +54,12 @@ public record ArticleCommentDto(
         );
     }
 
-    public ArticleComment toEntity() {
-        return ArticleComment.builder()
-                .article(articleDto.toEntity())
+    public Article toEntity() {
+        return Article.builder()
                 .userAccount(userAccountDto.toEntity())
+                .title(title)
                 .content(content)
+                .hashtag(hashtag)
                 .build();
     }
 }
