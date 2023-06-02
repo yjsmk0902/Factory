@@ -150,45 +150,45 @@ class ArticleCommentServiceTest {
     }
 
     private UserAccountDto createUserAccountDto() {
-        return UserAccountDto.of(
-                1L,
-                "userId",
-                "userPassword",
-                "email",
-                "nickname",
-                "memo",
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
+        return UserAccountDto.builder()
+                .id(1L)
+                .userId("userId")
+                .userPassword("userPassword")
+                .email("email")
+                .nickname("nickname")
+                .memo("memo")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
     private ArticleDto createArticleDto() {
-        return ArticleDto.of(
-                1L,
-                createUserAccountDto(),
-                "title",
-                "content",
-                "hashtag",
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
+        return ArticleDto.builder()
+                .id(1L)
+                .userAccountDto(createUserAccountDto())
+                .title("title")
+                .content("content")
+                .hashtag("hashtag")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
     private ArticleCommentDto createArticleCommentDto(String content) {
-        return ArticleCommentDto.of(
-                1L,
-                createArticleDto(),
-                createUserAccountDto(),
-                content,
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
+        return ArticleCommentDto.builder()
+                .id(1L)
+                .articleDto(createArticleDto())
+                .userAccountDto(createUserAccountDto())
+                .content(content)
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
     private ArticleComment createArticleComment(String content) {
@@ -201,6 +201,7 @@ class ArticleCommentServiceTest {
 
     private Article createArticle() {
         return Article.builder()
+                .userAccount(createUserAccount())
                 .title("title")
                 .content("content")
                 .hashtag("hashtag")

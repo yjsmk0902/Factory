@@ -3,9 +3,11 @@ package com.practice.postexample.dto.articleComment;
 import com.practice.postexample.domain.ArticleComment;
 import com.practice.postexample.dto.userAccount.UserAccountDto;
 import com.practice.postexample.dto.article.ArticleDto;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public record ArticleCommentDto(
         Long id,
         ArticleDto articleDto,
@@ -16,39 +18,18 @@ public record ArticleCommentDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-    public static ArticleCommentDto of(
-            Long id,
-            ArticleDto articleDto,
-            UserAccountDto userAccountDto,
-            String content,
-            LocalDateTime createdAt,
-            String createdBy,
-            LocalDateTime modifiedAt,
-            String modifiedBy
-    ) {
-        return new ArticleCommentDto(
-                id,
-                articleDto,
-                userAccountDto,
-                content,
-                createdAt,
-                createdBy,
-                modifiedAt,
-                modifiedBy
-        );
-    }
 
     public static ArticleCommentDto from(ArticleComment entity) {
-        return new ArticleCommentDto(
-                entity.getId(),
-                ArticleDto.from(entity.getArticle()),
-                UserAccountDto.from(entity.getUserAccount()),
-                entity.getContent(),
-                entity.getCreatedAt(),
-                entity.getCreatedBy(),
-                entity.getModifiedAt(),
-                entity.getModifiedBy()
-        );
+        return ArticleCommentDto.builder()
+                .id(entity.getId())
+                .articleDto(ArticleDto.from(entity.getArticle()))
+                .userAccountDto(UserAccountDto.from(entity.getUserAccount()))
+                .content(entity.getContent())
+                .createdAt(entity.getCreatedAt())
+                .createdBy(entity.getCreatedBy())
+                .modifiedAt(entity.getModifiedAt())
+                .modifiedBy(entity.getModifiedBy())
+                .build();
     }
 
     public ArticleComment toEntity() {

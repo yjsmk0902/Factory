@@ -1,11 +1,9 @@
 package com.practice.postexample.service;
 
 import com.practice.postexample.domain.Article;
-import com.practice.postexample.domain.ArticleComment;
 import com.practice.postexample.domain.UserAccount;
 import com.practice.postexample.domain.type.SearchType;
 import com.practice.postexample.dto.article.ArticleWithArticleCommentsDto;
-import com.practice.postexample.dto.articleComment.ArticleCommentDto;
 import com.practice.postexample.dto.article.ArticleDto;
 import com.practice.postexample.dto.userAccount.UserAccountDto;
 import com.practice.postexample.repository.ArticleRepository;
@@ -187,66 +185,45 @@ class ArticleServiceTest {
     }
 
     private UserAccountDto createUserAccountDto() {
-        return UserAccountDto.of(
-                1L,
-                "userId",
-                "userPassword",
-                "email",
-                "nickname",
-                "memo",
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
+        return UserAccountDto.builder()
+                .id(1L)
+                .userId("userId")
+                .userPassword("userPassword")
+                .email("email")
+                .nickname("nickname")
+                .memo("memo")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
     private ArticleDto createArticleDto() {
-        return ArticleDto.of(
-                1L,
-                createUserAccountDto(),
-                "title",
-                "content",
-                "hashtag",
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
+        return ArticleDto.builder()
+                .id(1L)
+                .userAccountDto(createUserAccountDto())
+                .title("title")
+                .content("content")
+                .hashtag("hashtag")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
     private ArticleDto createArticleDto(String title, String content, String hashtag) {
-        return ArticleDto.of(
-                1L,
-                createUserAccountDto(),
-                title,
-                content,
-                hashtag,
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
-    }
-
-    private ArticleCommentDto createArticleCommentDto() {
-        return ArticleCommentDto.of(
-                1L,
-                createArticleDto(),
-                createUserAccountDto(),
-                "content",
-                LocalDateTime.now(),
-                "luke",
-                LocalDateTime.now(),
-                "luke"
-        );
-    }
-
-    private ArticleComment createArticleComment(String content) {
-        return ArticleComment.builder()
-                .article(createArticle())
-                .userAccount(createUserAccount())
+        return ArticleDto.builder()
+                .id(1L)
+                .userAccountDto(createUserAccountDto())
+                .title(title)
                 .content(content)
+                .hashtag(hashtag)
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
                 .build();
     }
 

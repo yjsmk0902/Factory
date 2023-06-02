@@ -1,9 +1,11 @@
 package com.practice.postexample.dto.userAccount;
 
 import com.practice.postexample.domain.UserAccount;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public record UserAccountDto(
         Long id,
         String userId,
@@ -16,45 +18,20 @@ public record UserAccountDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-    public static UserAccountDto of(
-            Long id,
-            String userId,
-            String userPassword,
-            String email,
-            String nickname,
-            String memo,
-            LocalDateTime createdAt,
-            String createdBy,
-            LocalDateTime modifiedAt,
-            String modifiedBy
-    ) {
-        return new UserAccountDto(
-                id,
-                userId,
-                userPassword,
-                email,
-                nickname,
-                memo,
-                createdAt,
-                createdBy,
-                modifiedAt,
-                modifiedBy
-        );
-    }
 
     public static UserAccountDto from(UserAccount entity) {
-        return new UserAccountDto(
-                entity.getId(),
-                entity.getUserId(),
-                entity.getUserPassword(),
-                entity.getEmail(),
-                entity.getNickname(),
-                entity.getMemo(),
-                entity.getCreatedAt(),
-                entity.getCreatedBy(),
-                entity.getModifiedAt(),
-                entity.getModifiedBy()
-        );
+        return UserAccountDto.builder()
+                .id(entity.getId())
+                .userId(entity.getUserId())
+                .userPassword(entity.getUserPassword())
+                .email(entity.getEmail())
+                .nickname(entity.getNickname())
+                .memo(entity.getMemo())
+                .createdAt(entity.getCreatedAt())
+                .createdBy(entity.getCreatedBy())
+                .modifiedAt(entity.getModifiedAt())
+                .modifiedBy(entity.getModifiedBy())
+                .build();
     }
 
     public UserAccount toEntity() {
