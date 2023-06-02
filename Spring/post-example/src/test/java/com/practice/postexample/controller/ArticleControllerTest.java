@@ -1,15 +1,27 @@
 package com.practice.postexample.controller;
 
 import com.practice.postexample.config.SecurityConfig;
+import com.practice.postexample.dto.article.ArticleWithArticleCommentsDto;
+import com.practice.postexample.dto.userAccount.UserAccountDto;
+import com.practice.postexample.service.ArticleService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,17 +32,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ArticleController.class)
 class ArticleControllerTest {
 
-    private final MockMvc mvc;
+    @Autowired
+    private MockMvc mvc;
 
-
-    public ArticleControllerTest(@Autowired MockMvc mvc) {
-        this.mvc = mvc;
-    }
+    @MockBean
+    private ArticleService articleService;
 
     @Test
     @DisplayName("[View] - [GET] 게시글 리스트 (게시판) 페이지")
     void get_ArticlesView_ApiTest() throws Exception {
         //given
+        given(articleService.searchArticles(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
 
         //when
         mvc.perform(get("/articles"))
@@ -40,12 +52,17 @@ class ArticleControllerTest {
                 .andExpect(model().attributeExists("articles"));
 
         //then
+        then(articleService)
+                .should()
+                .searchArticles(eq(null), eq(null), any(Pageable.class));
     }
 
     @Test
     @DisplayName("[View] - [GET] 게시글 상세 페이지")
     void get_ArticleView_ApiTest() throws Exception {
         //given
+        Long articleId = 1L;
+        given(articleService.getArticle(articleId)).willReturn(createArticleWithArticleCommentsDto());
 
         //when
         mvc.perform(get("/articles/1"))
@@ -55,8 +72,10 @@ class ArticleControllerTest {
                 .andExpect(model().attributeExists("article"))
                 .andExpect(model().attributeExists("articleComments"));
 
-
         //then
+        then(articleService)
+                .should()
+                .getArticle(articleId);
     }
 
     @Disabled("구현중")
@@ -87,6 +106,36 @@ class ArticleControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
 
         //then
+    }
+
+    private ArticleWithArticleCommentsDto createArticleWithArticleCommentsDto() {
+        return ArticleWithArticleCommentsDto.builder()
+                .id(1L)
+                .userAccountDto(createUserAccountDto())
+                .articleCommentDtos(Set.of())
+                .title("title")
+                .content("content")
+                .hashtag("hashtag")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
+    }
+
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.builder()
+                .id(1L)
+                .userId("userId")
+                .userPassword("userPassword")
+                .email("email")
+                .nickname("nickname")
+                .memo("memo")
+                .createdAt(LocalDateTime.now())
+                .createdBy("luke")
+                .modifiedAt(LocalDateTime.now())
+                .modifiedBy("luke")
+                .build();
     }
 
 }
