@@ -43,7 +43,7 @@ public class ArticleController {
             ModelMap map
     ) {
         ArticleWithArticleCommentsResponse article = ArticleWithArticleCommentsResponse.from(articleService.getArticle(articleId));
-        map.addAttribute("article", article); //TODO: 구현할 때 실제 데이터로 바꿔줘야함
+        map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentsResponse());
         return "articles/detail";
     }
