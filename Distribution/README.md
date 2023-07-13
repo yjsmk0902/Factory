@@ -11,7 +11,7 @@
 
 ### **✔ [Sequal Ace로 접속하여 DB 넣어주기](#📖-sequal-ace로-접속하여-db-넣어주기)**
 
-### **✔ [Project 배포하기](#📖-project 배포하기)**
+### **✔ [Project 배포하기](#📖-project-배포하기)**
 
 
 
