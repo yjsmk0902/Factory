@@ -146,7 +146,7 @@ jobs:
         java-version: '[본인의 자바 버전]'
         distribution: 'temurin'
 
-		### jar 구동에 필요한 Git에 올라가지 못한 파일의 생성
+		# jar 구동에 필요한 Git에 올라가지 못한 파일의 생성
     - name: application-prod.yml 생성
       run: |
         cd ./src/main/resources			
@@ -159,14 +159,14 @@ jobs:
         touch ./application-jwt.yml
         echo "${{ secrets.APPLICATION_JWT }}" > ./application-jwt.yml
 
-		### jar를 boot하기 위해 빌드 권한 설정
+		# jar를 boot하기 위해 빌드 권한 설정
     - name: 빌드 권한 설정
       run: chmod +x gradlew
-		### jar 빌드
+		# jar 빌드
     - name: 빌드
       run: ./gradlew build -x test
 
-		### Git main 브랜치의 프로젝트를 이미지로 만들어 Docker Hub에 푸시
+		# Git main 브랜치의 프로젝트를 이미지로 만들어 Docker Hub에 푸시
 		# 1. Docker에 로그인
 		# 2. local에 이미지 생성
 		# 3. Docker Hub에 생성한 이미지 푸시
@@ -176,7 +176,7 @@ jobs:
         docker build -t ${{ secrets.DOCKER_USERNAME }}/[본인의 프로젝트 이미지 이름] .
         docker push ${{ secrets.DOCKER_USERNAME }}/[본인의 프로젝트 이미지 이름]
 
-		### EC2에 접속 후 Docker Hub에 올라온 이미지를 pull하여 배포
+		# EC2에 접속 후 Docker Hub에 올라온 이미지를 pull하여 배포
     - name: 배포
       uses: appleboy/ssh-action@master
       with:
