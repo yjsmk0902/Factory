@@ -70,7 +70,7 @@
 
 배포하고자 하는 프로젝트 최상단에 **Dockerfile**을 생성
 
-<img src="/Users/luke/Library/Application Support/typora-user-images/image-20230905165034210.png" alt="image-20230905165034210" style="zoom:50%;" />
+<img src="image-20230905165034210.png" alt="image-20230905165034210" style="zoom:50%;" />
 
 Dockerfile은 다음과 같이 작성
 
@@ -98,7 +98,7 @@ ENTRYPOINT ["java","-Dspring.profiles.active={배포할 프로젝트의 설정}"
 
 해당 환경의 `Environment secrets`에 `Add secret`으로 보안 설정 추가
 
-<img src="/Users/luke/Library/Application Support/typora-user-images/image-20230905170533880.png" alt="image-20230905170533880" style="zoom:50%;" />
+<img src="image-20230905170533880.png" alt="image-20230905170533880" style="zoom:50%;" />
 
 - **`APPLICATION_JWT`**: Git 커밋시 보안문제로 인해 .gitignore에 추가한 파일의 내용을 넣음
 - **`APPLICATION_PROD`**: Git 커밋시 보안문제로 인해 .gitignore에 추가한 파일의 내용을 넣음
@@ -115,7 +115,7 @@ ENTRYPOINT ["java","-Dspring.profiles.active={배포할 프로젝트의 설정}"
 
 배포하고자 하는 프로젝트의 Action 탭으로 이동 후
 
-<img src="/Users/luke/Library/Application Support/typora-user-images/image-20230905171237142.png" alt="image-20230905171237142" style="zoom:50%;" />
+<img src="image-20230905171237142.png" alt="image-20230905171237142" style="zoom:50%;" />
 
 해당 workflow를 선택
 
